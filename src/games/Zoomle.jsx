@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import countries from "./countries.json";
 
@@ -28,91 +27,91 @@ function getDirection(fromLat, fromLon, toLat, toLon) {
   const x = Math.cos(fromLat * Math.PI / 180) * Math.sin(toLat * Math.PI / 180) -
             Math.sin(fromLat * Math.PI / 180) * Math.cos(toLat * Math.PI / 180) * Math.cos(dLon * Math.PI / 180);
   const brng = Math.atan2(y, x) * 180 / Math.PI;
-  const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
-  const index = Math.round(((brng + 360) % 360) / 45) % 8;
-  return directions[index];
+  const compass = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+  const idx = Math.round(((brng + 360) % 360) / 45) % 8;
+  return compass[idx];
 }
-
 
 export default function Zoomle() {
   const [input, setInput] = useState("");
-  const [filtered, setFiltered] = useState([]);
   const [guesses, setGuesses] = useState([]);
+  const [filtered, setFiltered] = useState([]);
   const [zoom, setZoom] = useState(8);
 
-  const handleGuess = () => {
-    const guess = countries.find(c => c.name.toLowerCase() === input.toLowerCase());
-    if (!guess) return;
-    const distance = Math.round(getDistance(guess.lat, guess.lon, correctAnswer.lat, correctAnswer.lon));
-    const direction = getDirection(guess.lat, guess.lon, correctAnswer.lat, correctAnswer.lon);
-    const isCorrect = guess.name.toLowerCase() === correctAnswer.name.toLowerCase();
-    setGuesses(prev => [...prev, { name: guess.name, distance, direction, isCorrect }]);
-    setZoom(z => Math.max(2, z - 1));
-    setInput("");
+  const today = new Date().toISOString().split("T")[0];
+  const gameOver = guesses.length >= 6 || guesses.some(g => g.name === correctAnswer.name);
+
+  const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${correctAnswer.lon},${correctAnswer.lat},${zoom},0/500x300?access_token=${MAPBOX_TOKEN}`;
+
+  const handleInputChange = (e) => {
+    const val = e.target.value;
+    setInput(val);
+    if (val.length > 0) {
+      setFiltered(
+        countries.filter(c => c.name.toLowerCase().includes(val.toLowerCase())).slice(0, 10)
+      );
+    } else {
+      setFiltered([]);
+    }
   };
 
-  const filteredCountries = input.length > 0
-    ? countries.filter(c => c.name.toLowerCase().includes(input.toLowerCase()))
-    : [];
+  const handleSelect = (name) => {
+    const selected = countries.find(c => c.name === name);
+    if (!selected) return;
 
-  const today = new Date().toISOString().split("T")[0];
-  const gameOver = guesses.length >= 6 || guesses.some(g => g.isCorrect);
-  const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${correctAnswer.lon},${correctAnswer.lat},${zoom},0/500x300?access_token=${MAPBOX_TOKEN}`;
+    const distance = Math.round(getDistance(selected.lat, selected.lon, correctAnswer.lat, correctAnswer.lon));
+    const direction = getDirection(selected.lat, selected.lon, correctAnswer.lat, correctAnswer.lon);
+    const isCorrect = selected.name === correctAnswer.name;
+
+    setGuesses(prev => [...prev, { name: selected.name, distance, direction, isCorrect }]);
+    setInput("");
+    setFiltered([]);
+    setZoom(z => Math.max(2, z - 1));
+  };
 
   return (
     <div className="min-h-screen bg-neutral-100 text-gray-900 flex flex-col items-center justify-start p-6 font-serif">
       <h1 className="text-3xl font-bold mb-2">Zoomle - {today}</h1>
       <p className="mb-4 text-sm text-gray-600">Daily Location Guessing Game</p>
       <img src={mapUrl} alt="Map" className="mb-4 rounded shadow" />
+
       {!gameOver && (
         <div className="mb-4 w-full max-w-sm relative">
           <input
             value={input}
-            onChange={e => setInput(e.target.value)}
+            onChange={handleInputChange}
             className="w-full p-2 border border-gray-300 rounded"
-            placeholder="Enter country..."
+            placeholder="Guess a country..."
           />
-          {filteredCountries.length > 0 && (
+          {filtered.length > 0 && (
             <ul className="absolute bg-white border border-gray-300 w-full mt-1 max-h-40 overflow-y-auto z-10 rounded shadow">
-              {filteredCountries.map(c => (
-                <li key={c.name} className="p-2 hover:bg-gray-100 cursor-pointer" onClick={() => { setInput(c.name); setFiltered([]); document.activeElement.blur(); }}>
+              {filtered.map(c => (
+                <li
+                  key={c.name}
+                  className="p-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => handleSelect(c.name)}
+                >
                   {c.name}
                 </li>
               ))}
             </ul>
           )}
-          <button
-            onClick={handleGuess}
-            disabled={!input}
-            className="mt-2 w-full bg-black text-white py-2 rounded hover:bg-gray-800"
-          >
-            Submit Guess
-          </button>
         </div>
       )}
+
       <ul className="mb-6 w-full max-w-sm">
-        {filtered.length > 0 && (
-        <ul className="border max-h-48 overflow-y-auto bg-white shadow mb-2">
-          {filtered.map((c, i) => (
-            <li
-              key={i}
-              className="px-3 py-2 hover:bg-gray-200 cursor-pointer"
-              onClick={() => handleSelect(c.name)}
-            >
-              {c.name}
-            </li>
-          ))}
-        </ul>
-      )}
-      {guesses.map((g, i) => (
+        {guesses.map((g, i) => (
           <li key={i} className={`p-2 border rounded mb-2 ${g.isCorrect ? "bg-green-100" : "bg-white"}`}>
-            <strong>{g.name}</strong> – {g.isCorrect ? "🎉 Correct!" : `${g.distance} km`} <img src={`/arrows/${g.direction}.svg`} alt={g.direction} className="inline w-5 h-5 ml-2" />
+            <strong>{g.name}</strong> – {g.isCorrect ? "🎉 Correct!" : `${g.distance} km`}
+            <img src={`/arrows/${g.direction}.svg`} alt={g.direction} className="inline w-5 h-5 ml-2" />
           </li>
         ))}
       </ul>
+
       {gameOver && !guesses.some(g => g.isCorrect) && (
         <div className="text-red-500 font-semibold mb-4">The correct answer was: {correctAnswer.name}</div>
       )}
+
       <Link to="/emovi" className="text-blue-500 underline">Play Emovi →</Link>
     </div>
   );
