@@ -1,9 +1,9 @@
 
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import countries from "./countries.json";
+import mapboxgl from "mapbox-gl";
 
-const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 const correctAnswer = {
   name: "Japan",
@@ -37,31 +37,51 @@ export default function Zoomle() {
   const [input, setInput] = useState("");
   const [guesses, setGuesses] = useState([]);
   const [filtered, setFiltered] = useState([]);
+  const [map, setMap] = useState(null);
+
+  React.useEffect(() => {
+    const mapInstance = new mapboxgl.Map({
+      container: "map",
+      style: "mapbox://styles/mapbox/streets-v11",
+      center: [0, 20],
+      zoom: 1.2,
+    });
+    setMap(mapInstance);
+    return () => mapInstance.remove();
+  }, []);
 
   const handleInputChange = (e) => {
     const val = e.target.value;
     setInput(val);
     if (val.length > 0) {
-      setFiltered(countries.filter(c => c.toLowerCase().includes(val.toLowerCase())));
+      setFiltered(
+        countries
+          .filter(c => c.name.toLowerCase().includes(val.toLowerCase()))
+          .slice(0, 10)
+      );
     } else {
       setFiltered([]);
     }
   };
 
-  const handleSelect = (country) => {
-    const lat = 0;  // Placeholder for actual country lat
-    const lon = 0;  // Placeholder for actual country lon
+  const handleSelect = (countryName) => {
+    const country = countries.find(c => c.name === countryName);
+    if (!country) return;
 
-    const dist = getDistance(lat, lon, correctAnswer.lat, correctAnswer.lon).toFixed(0);
-    const dir = getDirection(lat, lon, correctAnswer.lat, correctAnswer.lon);
+    const dist = getDistance(country.lat, country.lon, correctAnswer.lat, correctAnswer.lon).toFixed(0);
+    const dir = getDirection(country.lat, country.lon, correctAnswer.lat, correctAnswer.lon);
 
-    setGuesses(prev => [...prev, { country, dist, dir }]);
+    setGuesses(prev => [...prev, { name: country.name, dist, dir }]);
     setInput("");
     setFiltered([]);
+
+    if (map) {
+      new mapboxgl.Marker().setLngLat([country.lon, country.lat]).addTo(map);
+    }
   };
 
   return (
-    <div className="p-4 max-w-xl mx-auto">
+    <div className="p-4 max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Zoomle</h1>
       <input
         type="text"
@@ -76,22 +96,23 @@ export default function Zoomle() {
             <li
               key={i}
               className="px-3 py-2 hover:bg-gray-200 cursor-pointer"
-              onClick={() => handleSelect(c)}
+              onClick={() => handleSelect(c.name)}
             >
-              {c}
+              {c.name}
             </li>
           ))}
         </ul>
       )}
       <div>
-        {guesses.map((guess, i) => (
+        {guesses.map((g, i) => (
           <div key={i} className="flex items-center gap-3 py-1">
-            <span className="w-32">{guess.country}</span>
-            <span>{guess.dist} km</span>
-            <img src={`/arrows/${guess.dir}.svg`} alt={guess.dir} className="w-6 h-6" />
+            <span className="w-32">{g.name}</span>
+            <span>{g.dist} km</span>
+            <img src={`/arrows/${g.dir}.svg`} alt={g.dir} className="w-6 h-6" />
           </div>
         ))}
       </div>
+      <div id="map" className="mt-4 w-full h-96 rounded border" />
     </div>
   );
 }
