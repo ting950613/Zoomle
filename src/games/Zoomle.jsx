@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import countries from "./countries.json";
 
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
+
 const correctAnswer = {
   name: "Japan",
   lat: 36.2048,
@@ -14,10 +16,9 @@ function getDistance(lat1, lon1, lat2, lon2) {
   const R = 6371;
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-    Math.sin(dLon / 2) ** 2;
+  const a = Math.sin(dLat / 2) ** 2 +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) ** 2;
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
@@ -54,11 +55,13 @@ export default function Zoomle() {
 
   const today = new Date().toISOString().split("T")[0];
   const gameOver = guesses.length >= 6 || guesses.some(g => g.isCorrect);
+  const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${correctAnswer.lon},${correctAnswer.lat},${zoom},0/500x300?access_token=${MAPBOX_TOKEN}`;
 
   return (
     <div className="min-h-screen bg-neutral-100 text-gray-900 flex flex-col items-center justify-start p-6 font-serif">
       <h1 className="text-3xl font-bold mb-2">Zoomle - {today}</h1>
       <p className="mb-4 text-sm text-gray-600">Daily Location Guessing Game</p>
+      <img src={mapUrl} alt="Map" className="mb-4 rounded shadow" />
       {!gameOver && (
         <div className="mb-4 w-full max-w-sm relative">
           <input
