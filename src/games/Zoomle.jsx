@@ -2,12 +2,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const MAPBOX_TOKEN = "pk.eyJ1IjoibWljaGhlbHRpbmdmeSIsImEiOiJjbWMybG90NW4wOW51MnJvZzhtbjV2a2VmIn0.ChuSb3DlCEXTjlaW1tC-FA";
+const MAPBOX_TOKEN = "sk.eyJ1IjoibWljaGFlbHRpbmdmeSIsImEiOiJjbWMydG4wcmMwZGFjMmtwdHZpMmpzeGJqIn0.ihnoPZ6_UbJNVl0VtslHew";
 
 const dailyLocation = [
-  { lat: 48.8584, lon: 2.2945, name: "paris" }, // Eiffel Tower
-  { lat: 40.6892, lon: -74.0445, name: "new york" }, // Statue of Liberty
-  { lat: 35.6586, lon: 139.7454, name: "tokyo" }, // Tokyo Tower
+  { lat: 48.8584, lon: 2.2945, name: "paris" },
+  { lat: 40.6892, lon: -74.0445, name: "new york" },
+  { lat: 35.6586, lon: 139.7454, name: "tokyo" },
 ];
 
 function getTodayLocation() {
