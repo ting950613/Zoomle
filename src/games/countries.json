@@ -25,6 +25,11 @@
     "lon": 18.5
   },
   {
+    "name": "Antigua and Barbuda",
+    "lat": 17.05,
+    "lon": -61.8
+  },
+  {
     "name": "Argentina",
     "lat": -34.0,
     "lon": -64.0
@@ -273,5 +278,25 @@
     "name": "Ethiopia",
     "lat": 8.0,
     "lon": 38.0
+  },
+  {
+    "name": "Fiji",
+    "lat": -18.0,
+    "lon": 175.0
+  },
+  {
+    "name": "Finland",
+    "lat": 64.0,
+    "lon": 26.0
+  },
+  {
+    "name": "France",
+    "lat": 46.0,
+    "lon": 2.0
+  },
+  {
+    "name": "Gabon",
+    "lat": -1.0,
+    "lon": 11.75
   }
 ]
