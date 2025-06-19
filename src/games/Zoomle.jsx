@@ -34,20 +34,6 @@ function getDirection(fromLat, fromLon, toLat, toLon) {
 }
 
 
-  const getDirectionArrow = (dir) => {
-    const arrows = {
-      N: "↑",
-      NE: "↗",
-      E: "→",
-      SE: "↘",
-      S: "↓",
-      SW: "↙",
-      W: "←",
-      NW: "↖"
-    };
-    return arrows[dir] || "";
-  };
-
 export default function Zoomle() {
   const [input, setInput] = useState("");
   const [guesses, setGuesses] = useState([]);
