@@ -50,7 +50,7 @@ export default function Zoomle() {
   };
 
   const filteredCountries = input.length > 0
-    ? countries.filter(c => c.name.toLowerCase().startsWith(input.toLowerCase())).slice(0, 5)
+    ? countries.filter(c => c.name.toLowerCase().includes(input.toLowerCase())).slice(0, 5)
     : [];
 
   const today = new Date().toISOString().split("T")[0];
@@ -73,7 +73,7 @@ export default function Zoomle() {
           {filteredCountries.length > 0 && (
             <ul className="absolute bg-white border border-gray-300 w-full mt-1 max-h-40 overflow-y-auto z-10 rounded shadow">
               {filteredCountries.map(c => (
-                <li key={c.name} className="p-2 hover:bg-gray-100 cursor-pointer" onClick={() => setInput(c.name)}>
+                <li key={c.name} className="p-2 hover:bg-gray-100 cursor-pointer" onClick={() => { setInput(c.name); document.activeElement.blur(); }}>
                   {c.name}
                 </li>
               ))}
