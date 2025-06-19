@@ -102,9 +102,14 @@ export default function Zoomle() {
       <ul className="mb-6 w-full max-w-sm">
         {guesses.map((g, i) => (
           <li key={i} className={`p-2 border rounded mb-2 ${g.isCorrect ? "bg-green-100" : "bg-white"}`}>
-            <strong>{g.name}</strong> – g.isCorrect ? "🎉 Correct!" : (<>{`${g.distance} km`} <img src={`/arrows/$.svg`} alt= className="inline w-5 h-5 ml-2" /></>)
-            <img src={`/arrows/$.svg`} alt= className="inline w-5 h-5 ml-2" />
-          </li>
+            <strong>{g.name}</strong> – {g.isCorrect ? (
+  "🎉 Correct!"
+) : (
+  <>
+    {`${g.distance} km`}
+    <img src={`/arrows/${g.direction}.svg`} alt={g.direction} className="inline w-5 h-5 ml-2" />
+  </>
+)}</li>
         ))}
       </ul>
 
