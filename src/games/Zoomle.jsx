@@ -75,7 +75,7 @@ export default function Zoomle() {
           {filteredCountries.length > 0 && (
             <ul className="absolute bg-white border border-gray-300 w-full mt-1 max-h-40 overflow-y-auto z-10 rounded shadow">
               {filteredCountries.map(c => (
-                <li key={c.name} className="p-2 hover:bg-gray-100 cursor-pointer" onClick={() => { setInput(c.name); document.activeElement.blur(); }}>
+                <li key={c.name} className="p-2 hover:bg-gray-100 cursor-pointer" onClick={() => { setInput(c.name); setFiltered([]); document.activeElement.blur(); }}>
                   {c.name}
                 </li>
               ))}
@@ -106,7 +106,7 @@ export default function Zoomle() {
       )}
       {guesses.map((g, i) => (
           <li key={i} className={`p-2 border rounded mb-2 ${g.isCorrect ? "bg-green-100" : "bg-white"}`}>
-            <strong>{g.name}</strong> – {g.isCorrect ? "🎉 Correct!" : `${g.distance} km • ${g.direction}`}
+            <strong>{g.name}</strong> – {g.isCorrect ? "🎉 Correct!" : `${g.distance} km`} <img src={`/arrows/${g.direction}.svg`} alt={g.direction} className="inline w-5 h-5 ml-2" />
           </li>
         ))}
       </ul>
