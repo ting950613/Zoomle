@@ -36,6 +36,7 @@ function getDirection(fromLat, fromLon, toLat, toLon) {
 
 export default function Zoomle() {
   const [input, setInput] = useState("");
+  const [filtered, setFiltered] = useState([]);
   const [guesses, setGuesses] = useState([]);
   const [zoom, setZoom] = useState(8);
 
@@ -90,7 +91,20 @@ export default function Zoomle() {
         </div>
       )}
       <ul className="mb-6 w-full max-w-sm">
-        {guesses.map((g, i) => (
+        {filtered.length > 0 && (
+        <ul className="border max-h-48 overflow-y-auto bg-white shadow mb-2">
+          {filtered.map((c, i) => (
+            <li
+              key={i}
+              className="px-3 py-2 hover:bg-gray-200 cursor-pointer"
+              onClick={() => handleSelect(c.name)}
+            >
+              {c.name}
+            </li>
+          ))}
+        </ul>
+      )}
+      {guesses.map((g, i) => (
           <li key={i} className={`p-2 border rounded mb-2 ${g.isCorrect ? "bg-green-100" : "bg-white"}`}>
             <strong>{g.name}</strong> – {g.isCorrect ? "🎉 Correct!" : `${g.distance} km • ${g.direction}`}
           </li>
