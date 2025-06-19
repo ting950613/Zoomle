@@ -255,48 +255,723 @@
     "lon": 30.0
   },
   {
-    "name": "El Salvador",
-    "lat": 13.8333,
-    "lon": -88.9167
+    "name": "Japan",
+    "lat": 36.2048,
+    "lon": 138.2529
   },
   {
-    "name": "Equatorial Guinea",
-    "lat": 2.0,
-    "lon": 10.0
+    "name": "South Korea",
+    "lat": 37.5665,
+    "lon": 126.978
   },
   {
-    "name": "Eritrea",
-    "lat": 15.0,
-    "lon": 39.0
+    "name": "United States",
+    "lat": 38.0,
+    "lon": -97.0
   },
   {
-    "name": "Estonia",
-    "lat": 59.0,
-    "lon": 26.0
+    "name": "United Kingdom",
+    "lat": 54.0,
+    "lon": -2.0
   },
   {
-    "name": "Ethiopia",
-    "lat": 8.0,
-    "lon": 38.0
+    "name": "Taiwan",
+    "lat": 23.6978,
+    "lon": 120.9605
   },
   {
-    "name": "Fiji",
-    "lat": -18.0,
-    "lon": 175.0
+    "name": "Country 57",
+    "lat": 0.0,
+    "lon": 0.0
   },
   {
-    "name": "Finland",
-    "lat": 64.0,
-    "lon": 26.0
+    "name": "Country 58",
+    "lat": 0.0,
+    "lon": 0.0
   },
   {
-    "name": "France",
-    "lat": 46.0,
-    "lon": 2.0
+    "name": "Country 59",
+    "lat": 0.0,
+    "lon": 0.0
   },
   {
-    "name": "Gabon",
-    "lat": -1.0,
-    "lon": 11.75
+    "name": "Country 60",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 61",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 62",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 63",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 64",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 65",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 66",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 67",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 68",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 69",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 70",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 71",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 72",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 73",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 74",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 75",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 76",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 77",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 78",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 79",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 80",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 81",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 82",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 83",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 84",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 85",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 86",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 87",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 88",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 89",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 90",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 91",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 92",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 93",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 94",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 95",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 96",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 97",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 98",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 99",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 100",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 101",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 102",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 103",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 104",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 105",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 106",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 107",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 108",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 109",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 110",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 111",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 112",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 113",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 114",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 115",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 116",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 117",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 118",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 119",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 120",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 121",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 122",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 123",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 124",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 125",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 126",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 127",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 128",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 129",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 130",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 131",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 132",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 133",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 134",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 135",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 136",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 137",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 138",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 139",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 140",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 141",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 142",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 143",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 144",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 145",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 146",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 147",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 148",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 149",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 150",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 151",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 152",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 153",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 154",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 155",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 156",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 157",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 158",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 159",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 160",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 161",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 162",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 163",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 164",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 165",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 166",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 167",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 168",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 169",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 170",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 171",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 172",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 173",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 174",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 175",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 176",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 177",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 178",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 179",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 180",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 181",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 182",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 183",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 184",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 185",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 186",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 187",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 188",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 189",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 190",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 191",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 192",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 193",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 194",
+    "lat": 0.0,
+    "lon": 0.0
+  },
+  {
+    "name": "Country 195",
+    "lat": 0.0,
+    "lon": 0.0
   }
 ]
