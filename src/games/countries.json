@@ -50,6 +50,11 @@
     "lon": 47.5
   },
   {
+    "name": "Bahamas",
+    "lat": 24.25,
+    "lon": -76.0
+  },
+  {
     "name": "Bangladesh",
     "lat": 24.0,
     "lon": 90.0
