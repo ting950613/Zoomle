@@ -14,9 +14,9 @@ const arrowMap = {
   NW: "↖",
 };
 
-// 1) Daily country selector (local midnight)
+// Daily country selector based on local date
 function getTodayCountry() {
-  const today = new Date().toLocaleDateString("en-CA"); // "YYYY-MM-DD" local
+  const today = new Date().toLocaleDateString("en-CA");
   let hash = 0;
   for (let i = 0; i < today.length; i++) {
     hash = today.charCodeAt(i) + ((hash << 5) - hash);
@@ -26,21 +26,19 @@ function getTodayCountry() {
 
 const correctAnswer = getTodayCountry();
 
-// calculate distance
+// Distance in km
 function getDistance(lat1, lon1, lat2, lon2) {
   const toRad = (d) => (d * Math.PI) / 180;
-  const R = 6371; // km
+  const R = 6371;
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
   const a =
     Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) *
-      Math.cos(toRad(lat2)) *
-      Math.sin(dLon / 2) ** 2;
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-// bearing → compass
+// Bearing → compass
 function getDirection(fromLat, fromLon, toLat, toLon) {
   const dLon = toLon - fromLon;
   const y = Math.sin((dLon * Math.PI) / 180) * Math.cos((toLat * Math.PI) / 180);
@@ -61,13 +59,8 @@ export default function Zoomle() {
   const [guesses, setGuesses] = useState([]);
   const [zoom, setZoom] = useState(4);
 
-  // game over when 6 guesses or correct guessed
   const gameOver = guesses.length >= 6 || guesses.some((g) => g.isCorrect);
 
-  // satellite map URL centered on today’s country
-  const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${correctAnswer.lon},${correctAnswer.lat},${zoom},0/500x300?access_token=${import.meta.env.VITE_MAPBOX_TOKEN}`;
-
-  // filter dropdown as you type
   const handleInputChange = (e) => {
     const val = e.target.value;
     setInput(val);
@@ -84,92 +77,89 @@ export default function Zoomle() {
     }
   };
 
-  // click or Enter selects and submits
   const handleSelect = (name) => {
-    const c = countries.find((c) => c.name === name);
-    if (!c) return;
-    const dist = Math.round(
-      getDistance(c.lat, c.lon, correctAnswer.lat, correctAnswer.lon)
+    const guess = countries.find((c) => c.name === name);
+    if (!guess) return;
+
+    const distance = Math.round(
+      getDistance(guess.lat, guess.lon, correctAnswer.lat, correctAnswer.lon)
     );
-    const dir = getDirection(
-      c.lat,
-      c.lon,
+    const direction = getDirection(
+      guess.lat,
+      guess.lon,
       correctAnswer.lat,
       correctAnswer.lon
     );
-    const isCorrect = c.name === correctAnswer.name;
-    setGuesses((g) => [...g, { name: c.name, distance: dist, direction: dir, isCorrect }]);
+    const isCorrect = guess.name === correctAnswer.name;
+
+    setGuesses([...guesses, { name, distance, direction, isCorrect }]);
     setInput("");
     setFiltered([]);
-    setZoom((z) => Math.max(2, z - 1));
+    if (!isCorrect) setZoom((z) => Math.min(z + 1, 10));
   };
 
   return (
-    <div className="min-h-screen bg-neutral-100 text-gray-900 flex flex-col items-center p-6 font-serif">
-      <h1 className="text-3xl font-bold mb-1">Zoomle</h1>
-      <p className="text-sm text-gray-600 mb-4">Daily Location Guessing Game</p>
-      <img src={mapUrl} alt="Map" className="rounded shadow mb-4" />
+    <div className="p-4 max-w-xl mx-auto text-center">
+      <h1 className="text-3xl font-bold mb-2">🌍 Zoomle</h1>
+      <p className="mb-4 text-sm text-gray-600">Guess the country based on the satellite image</p>
 
       {!gameOver && (
-        <div className="w-full max-w-sm mb-4 relative">
+        <>
           <input
-            className="w-full p-2 border rounded"
-            placeholder="Guess a country…"
+            type="text"
+            className="border p-2 w-full rounded"
+            placeholder="Type a country"
             value={input}
             onChange={handleInputChange}
             onKeyDown={(e) => {
-              if (e.key === "Enter" && filtered.length) {
+              if (e.key === "Enter" && filtered.length > 0) {
                 handleSelect(filtered[0].name);
               }
             }}
           />
-          {filtered.length > 0 && (
-            <ul className="absolute bg-white border w-full mt-1 max-h-40 overflow-y-auto rounded shadow z-10">
-              {filtered.map((c) => (
-                <li
-                  key={c.name}
-                  className="p-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => handleSelect(c.name)}
-                >
-                  {c.name}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+          <ul className="text-left border rounded mt-1">
+            {filtered.map((c) => (
+              <li
+                key={c.name}
+                onClick={() => handleSelect(c.name)}
+                className="px-2 py-1 hover:bg-gray-100 cursor-pointer"
+              >
+                {c.name}
+              </li>
+            ))}
+          </ul>
+        </>
       )}
 
-      {/* Guess counter */}
-      <div className="text-sm text-gray-600 mb-2">
-        {guesses.length}/6 guesses
+      <div className="my-4">
+        <img
+          src={`https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${correctAnswer.lon},${correctAnswer.lat},${zoom},0/400x300?access_token=pk.eyJ1IjoibWljaGhlbHRpbmdmeSIsImEiOiJjbWMybG90NW4wOW51MnJvZzhtbjV2a2VmIn0.ChuSb3DlCEXTjlaW1tC-FA`}
+          alt="map"
+          className="rounded mx-auto"
+        />
       </div>
 
-      {/* Guess results with Unicode arrows */}
-      <ul className="w-full max-w-sm mb-4">
+      <div className="text-sm text-gray-500 mb-2">{`${guesses.length}/6 guesses`}</div>
+      <ul className="text-left text-sm space-y-1">
         {guesses.map((g, i) => (
-          <li
-            key={i}
-            className={`p-2 border rounded mb-2 ${
-              g.isCorrect ? "bg-green-100" : "bg-white"
-            }`}
-          >
-            <strong>{g.name}</strong> –{" "}
-            {g.isCorrect ? "🎉 Correct!" : `${g.distance} km`}
-            <span className="inline ml-2 text-xl">{arrowMap[g.direction]}</span>
+          <li key={i}>
+            <span className="font-medium">{g.name}</span> — {g.distance} km {arrowMap[g.direction] || g.direction}
+            {g.isCorrect && " ✅"}
           </li>
         ))}
       </ul>
 
-      {/* Reveal if failed */}
       {gameOver && !guesses.some((g) => g.isCorrect) && (
-        <div className="text-red-500 font-semibold mb-4">
+        <div className="mt-4 text-red-600 font-semibold">
           The correct answer was: {correctAnswer.name}.
         </div>
       )}
 
-      <Link to="/emovi" className="text-blue-500 underline">
-        Play Emovi →
-      </Link>
+      <div className="mt-6">
+        <Link to="/" className="text-blue-600 underline text-sm">
+          ← Back to menu
+        </Link>
+      </div>
     </div>
   );
 }
