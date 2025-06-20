@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import countries from "../data/countries_with_mapLocations.json";
 import "./Zoomle.css";
@@ -9,7 +10,8 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
   function toRad(x) {
     return (x * Math.PI) / 180;
   }
-  const R = 6371;
+
+  const R = 6371; // Radius of the Earth in km
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
   const a =
@@ -52,26 +54,15 @@ export default function Zoomle() {
       container: "map",
       style: "mapbox://styles/mapbox/satellite-v9",
       center: [center.lon, center.lat],
-      zoom: 11,
+      zoom: 6,
     });
 
     setMap(newMap);
   }, []);
 
-  function getDirectionIcon(guessLat, guessLon, correctLat, correctLon) {
-    const dx = correctLon - guessLon;
-    const dy = correctLat - guessLat;
-    const angle = (Math.atan2(dy, dx) * 180) / Math.PI;
-    const directions = [
-      "E", "NE", "N", "NW", "W", "SW", "S", "SE"
-    ];
-    const index = Math.round(((angle + 360) % 360) / 45) % 8;
-    return `/arrows/${directions[index]}.svg`;
-  }
-
   function handleGuessSubmit(e) {
     e.preventDefault();
-    if (!guess || !correctCountry) return;
+    if (!guess) return;
 
     const guessed = countries.find(
       (c) => c.name.toLowerCase() === guess.toLowerCase()
@@ -84,17 +75,10 @@ export default function Zoomle() {
         correctCountry.lat,
         correctCountry.lon
       );
-
       const newGuess = {
         name: guessed.name,
         distance: dist.toFixed(0),
         isCorrect: guessed.name === correctCountry.name,
-        directionIcon: getDirectionIcon(
-          guessed.lat,
-          guessed.lon,
-          correctCountry.lat,
-          correctCountry.lon
-        ),
       };
 
       const updatedGuesses = [...guesses, newGuess];
@@ -109,9 +93,7 @@ export default function Zoomle() {
 
   return (
     <div>
-      <h1>Zoomle</h1>
       <div id="map" style={{ width: "100%", height: "400px" }}></div>
-
       {!isGameOver && (
         <form onSubmit={handleGuessSubmit}>
           <input
@@ -132,8 +114,8 @@ export default function Zoomle() {
       <ul>
         {guesses.map((g, idx) => (
           <li key={idx}>
-            {idx + 1}/6 — {g.name} – {g.distance} km{" "}
-            {g.isCorrect ? "✅" : <img src={g.directionIcon} alt="→" height="20" />}
+            {g.name} - {g.distance} km{" "}
+            {g.isCorrect ? "✅" : <img src={`/arrows/arrow.svg`} alt="→" />}
           </li>
         ))}
       </ul>
