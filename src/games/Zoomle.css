@@ -1,0 +1,57 @@
+
+.zoomle-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: sans-serif;
+  padding: 1rem;
+}
+
+.map-container {
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+}
+
+.game-panel {
+  width: 100%;
+  max-width: 600px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.dropdown {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+}
+
+.dropdown-item {
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.guess-list {
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+.result {
+  margin-top: 1rem;
+  font-weight: bold;
+  color: #d33;
+}
