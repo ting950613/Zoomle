@@ -4,13 +4,11 @@ import countries from "./countries.json";
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
-
 function getDailyCountry() {
   const seed = Math.floor(new Date().setHours(0, 0, 0, 0) / 86400000);
   return countries[seed % countries.length];
 }
 const correctAnswer = getDailyCountry();
-
 
 function getDistance(lat1, lon1, lat2, lon2) {
   const toRad = deg => deg * Math.PI / 180;
@@ -23,7 +21,6 @@ function getDistance(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-
 function getDirection(fromLat, fromLon, toLat, toLon) {
   const angle = Math.atan2(toLon - fromLon, toLat - fromLat) * 180 / Math.PI;
   const directions = ['↑', '↗', '→', '↘', '↓', '↙', '←', '↖'];
@@ -35,9 +32,9 @@ export default function Zoomle() {
   const [input, setInput] = useState("");
   const [guesses, setGuesses] = useState([]);
   const [filtered, setFiltered] = useState([]);
-  const [zoom, setZoom] = useState(12);
-
+  const [zoom, setZoom] = useState(12);  // Zoomed in
   const today = new Date().toISOString().split("T")[0];
+
   const gameOver = guesses.length >= 6 || guesses.some(g => g.name === correctAnswer.name);
 
   const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${correctAnswer.lon},${correctAnswer.lat},${zoom},0/500x300?access_token=${MAPBOX_TOKEN}`;
@@ -68,6 +65,12 @@ export default function Zoomle() {
     setZoom(z => Math.max(2, z - 1));
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSelect(input);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-neutral-100 text-gray-900 flex flex-col items-center justify-start p-6 font-serif">
       <h1 className="text-3xl font-bold mb-2">Zoomle - {today}</h1>
@@ -76,9 +79,10 @@ export default function Zoomle() {
 
       {!gameOver && (
         <div className="mb-4 w-full max-w-sm relative">
-          <input onKeyDown={handleKeyDown}
+          <input
             value={input}
             onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
             className="w-full p-2 border border-gray-300 rounded"
             placeholder="Guess a country..."
           />
@@ -102,27 +106,24 @@ export default function Zoomle() {
         {guesses.map((g, i) => (
           <li key={i} className={`p-2 border rounded mb-2 ${g.isCorrect ? "bg-green-100" : "bg-white"}`}>
             <strong>{g.name}</strong> – {g.isCorrect ? (
-  "🎉 Correct!"
-) : (
-  <>
-    {`${g.distance} km`}
-    <img src={`/arrows/${g.direction}.svg`} alt={g.direction} className="inline w-5 h-5 ml-2" />
-  </>
-)}</li>
+              "🎉 Correct!"
+            ) : (
+              <>
+                {`${g.distance} km `}
+                <img src={`/arrows/${g.direction}.svg`} alt={g.direction} className="inline w-5 h-5 ml-2" />
+              </>
+            )}
+          </li>
         ))}
       </ul>
 
+      <p className="text-gray-700 mb-2">{guesses.length}/6 guesses</p>
+
       {gameOver && !guesses.some(g => g.isCorrect) && (
-        <div className="text-red-500 font-semibold mb-4">The correct answer was: {correctAnswer.name}</div>
+        <p className="text-red-500 text-sm mb-4">The correct answer was: <strong>{correctAnswer.name}</strong>.</p>
       )}
 
-      <Link to="/emovi" className="text-blue-500 underline">Play Emovi →</Link>
-    {gameOver && !guesses.some(g => g.isCorrect) && (
-        <div className="mt-2 text-red-600">The correct answer was: {correctAnswer.name}</div>
-      )}
-      {gameOver && (
-        <div className="mt-1 text-sm text-gray-500">{guesses.length}/6 guesses used</div>
-      )}
+      <Link to="/" className="text-blue-500 hover:underline mt-2 text-sm">Back to Home</Link>
     </div>
   );
 }
