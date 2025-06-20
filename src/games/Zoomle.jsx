@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import countries from "../src/data/countries_with_mapLocations.json";
+import countries from "../data/countries_with_mapLocations.json";
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
