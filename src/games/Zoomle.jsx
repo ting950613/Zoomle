@@ -2,6 +2,18 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import countries from "./countries.json";
 
+// Unicode arrow map
+const arrowMap = {
+  N:  "↑",
+  NE: "↗",
+  E:  "→",
+  SE: "↘",
+  S:  "↓",
+  SW: "↙",
+  W:  "←",
+  NW: "↖",
+};
+
 // 1) Daily country selector (local midnight)
 function getTodayCountry() {
   const today = new Date().toLocaleDateString("en-CA"); // "YYYY-MM-DD" local
@@ -132,7 +144,7 @@ export default function Zoomle() {
         {guesses.length}/6 guesses
       </div>
 
-      {/* Guess results with arrows */}
+      {/* Guess results with Unicode arrows */}
       <ul className="w-full max-w-sm mb-4">
         {guesses.map((g, i) => (
           <li
@@ -143,11 +155,7 @@ export default function Zoomle() {
           >
             <strong>{g.name}</strong> –{" "}
             {g.isCorrect ? "🎉 Correct!" : `${g.distance} km`}
-            <img
-              src={`/arrows/${g.direction}.svg`}
-              alt={g.direction}
-              className="inline w-5 h-5 ml-2"
-            />
+            <span className="inline ml-2 text-xl">{arrowMap[g.direction]}</span>
           </li>
         ))}
       </ul>
