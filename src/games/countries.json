@@ -194,7 +194,17 @@
   {"name": "Vietnam", "lat": 14.0583, "lon": 108.2772},
   {"name": "Yemen", "lat": 15.5527, "lon": 48.5164},
   {"name": "Zambia", "lat": -13.1339, "lon": 27.8493},
-  {"name": "Zimbabwe", "lat": -19.0154, "lon": 29.1549}
+  {"name": "Zimbabwe", "lat": -19.0154, "lon": 29.1549},
+  { "name": "Taiwan", "lat": 23.6978, "lon": 120.9605 },
+  { "name": "Palestine", "lat": 31.9522, "lon": 35.2332 },
+  { "name": "Kosovo", "lat": 42.6026, "lon": 20.9026 },
+  { "name": "Western Sahara", "lat": 24.2155, "lon": -12.8858 },
+  { "name": "Hong Kong", "lat": 22.3193, "lon": 114.1694 },
+  { "name": "Macau", "lat": 22.1987, "lon": 113.5439 },
+  { "name": "Northern Cyprus", "lat": 35.2359, "lon": 33.9500 },
+  { "name": "South Ossetia", "lat": 42.2333, "lon": 43.9667 },
+  { "name": "Abkhazia", "lat": 43.0015, "lon": 41.0234 },
+  { "name": "Somaliland", "lat": 9.4117, "lon": 44.4755 }
 ]
 
 
