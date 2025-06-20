@@ -72,8 +72,8 @@ export default function Zoomle() {
       const dist = haversineDistance(
         guessed.lat,
         guessed.lon,
-        correctCountry.lat,
-        correctCountry.lon
+        correctLat,
+        correctLon
       );
       const newGuess = {
         name: guessed.name,
