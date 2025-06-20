@@ -29,22 +29,13 @@ function getDirection(fromLat, fromLon, toLat, toLon) {
   const directions = ['↑', '↗', '→', '↘', '↓', '↙', '←', '↖'];
   const index = Math.round(((angle + 360) % 360) / 45) % 8;
   return directions[index];
-
-  const dLon = toLon - fromLon;
-  const y = Math.sin(dLon * Math.PI / 180) * Math.cos(toLat * Math.PI / 180);
-  const x = Math.cos(fromLat * Math.PI / 180) * Math.sin(toLat * Math.PI / 180) -
-            Math.sin(fromLat * Math.PI / 180) * Math.cos(toLat * Math.PI / 180) * Math.cos(dLon * Math.PI / 180);
-  const brng = Math.atan2(y, x) * 180 / Math.PI;
-  const compass = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
-  const idx = Math.round(((brng + 360) % 360) / 45) % 8;
-  return compass[idx];
 }
 
 export default function Zoomle() {
   const [input, setInput] = useState("");
   const [guesses, setGuesses] = useState([]);
   const [filtered, setFiltered] = useState([]);
-  const [zoom, setZoom] = useState(8);
+  const [zoom, setZoom] = useState(12);
 
   const today = new Date().toISOString().split("T")[0];
   const gameOver = guesses.length >= 6 || guesses.some(g => g.name === correctAnswer.name);
@@ -85,7 +76,7 @@ export default function Zoomle() {
 
       {!gameOver && (
         <div className="mb-4 w-full max-w-sm relative">
-          <input
+          <input onKeyDown={handleKeyDown}
             value={input}
             onChange={handleInputChange}
             className="w-full p-2 border border-gray-300 rounded"
@@ -126,6 +117,12 @@ export default function Zoomle() {
       )}
 
       <Link to="/emovi" className="text-blue-500 underline">Play Emovi →</Link>
+    {gameOver && !guesses.some(g => g.isCorrect) && (
+        <div className="mt-2 text-red-600">The correct answer was: {correctAnswer.name}</div>
+      )}
+      {gameOver && (
+        <div className="mt-1 text-sm text-gray-500">{guesses.length}/6 guesses used</div>
+      )}
     </div>
   );
 }
