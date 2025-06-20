@@ -4,11 +4,13 @@ import countries from "./countries.json";
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
-const correctAnswer = {
-  name: "Japan",
-  lat: 36.2048,
-  lon: 138.2529,
-};
+
+function getDailyCountry() {
+  const seed = Math.floor(new Date().setHours(0, 0, 0, 0) / 86400000);
+  return countries[seed % countries.length];
+}
+const correctAnswer = getDailyCountry();
+
 
 function getDistance(lat1, lon1, lat2, lon2) {
   const toRad = deg => deg * Math.PI / 180;
@@ -21,7 +23,13 @@ function getDistance(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
+
 function getDirection(fromLat, fromLon, toLat, toLon) {
+  const angle = Math.atan2(toLon - fromLon, toLat - fromLat) * 180 / Math.PI;
+  const directions = ['↑', '↗', '→', '↘', '↓', '↙', '←', '↖'];
+  const index = Math.round(((angle + 360) % 360) / 45) % 8;
+  return directions[index];
+
   const dLon = toLon - fromLon;
   const y = Math.sin(dLon * Math.PI / 180) * Math.cos(toLat * Math.PI / 180);
   const x = Math.cos(fromLat * Math.PI / 180) * Math.sin(toLat * Math.PI / 180) -
