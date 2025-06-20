@@ -2,7 +2,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import countries from "../data/countries.json";
-import "./Zoomle.css";
 
 mapboxgl.accessToken = "pk.eyJ1IjoibWljaGhlbHRpbmdmeSIsImEiOiJjbWMybG90NW4wOW51MnJvZzhtbjV2a2VmIn0.ChuSb3DlCEXTjlaW1tC-FA";
 
