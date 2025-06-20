@@ -1,24 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import countries from "./countries.json";
 
-const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
-
 // 1) Daily country selector (local midnight)
 function getTodayCountry() {
-  // use local date so it flips at midnight in your timezone
-  const today = new Date().toLocaleDateString("en-CA"); // "YYYY-MM-DD"
+  const today = new Date().toLocaleDateString("en-CA"); // "YYYY-MM-DD" local
   let hash = 0;
   for (let i = 0; i < today.length; i++) {
     hash = today.charCodeAt(i) + ((hash << 5) - hash);
   }
-  const index = Math.abs(hash) % countries.length;
-  return countries[index];
+  return countries[Math.abs(hash) % countries.length];
 }
 
 const correctAnswer = getTodayCountry();
 
-// distance calculation
+// calculate distance
 function getDistance(lat1, lon1, lat2, lon2) {
   const toRad = (d) => (d * Math.PI) / 180;
   const R = 6371; // km
@@ -53,12 +49,11 @@ export default function Zoomle() {
   const [guesses, setGuesses] = useState([]);
   const [zoom, setZoom] = useState(4);
 
-  // game over when 6 guesses used or correct guessed
-  const gameOver =
-    guesses.length >= 6 || guesses.some((g) => g.isCorrect);
+  // game over when 6 guesses or correct guessed
+  const gameOver = guesses.length >= 6 || guesses.some((g) => g.isCorrect);
 
   // satellite map URL centered on today’s country
-  const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${correctAnswer.lon},${correctAnswer.lat},${zoom},0/500x300?access_token=${MAPBOX_TOKEN}`;
+  const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${correctAnswer.lon},${correctAnswer.lat},${zoom},0/500x300?access_token=${import.meta.env.VITE_MAPBOX_TOKEN}`;
 
   // filter dropdown as you type
   const handleInputChange = (e) => {
@@ -84,7 +79,12 @@ export default function Zoomle() {
     const dist = Math.round(
       getDistance(c.lat, c.lon, correctAnswer.lat, correctAnswer.lon)
     );
-    const dir = getDirection(c.lat, c.lon, correctAnswer.lat, correctAnswer.lon);
+    const dir = getDirection(
+      c.lat,
+      c.lon,
+      correctAnswer.lat,
+      correctAnswer.lon
+    );
     const isCorrect = c.name === correctAnswer.name;
     setGuesses((g) => [...g, { name: c.name, distance: dist, direction: dir, isCorrect }]);
     setInput("");
@@ -142,9 +142,7 @@ export default function Zoomle() {
             }`}
           >
             <strong>{g.name}</strong> –{" "}
-            {g.isCorrect
-              ? "🎉 Correct!"
-              : `${g.distance} km`}
+            {g.isCorrect ? "🎉 Correct!" : `${g.distance} km`}
             <img
               src={`/arrows/${g.direction}.svg`}
               alt={g.direction}
