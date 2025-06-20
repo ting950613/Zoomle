@@ -32,7 +32,7 @@ export default function Zoomle() {
   const [input, setInput] = useState("");
   const [guesses, setGuesses] = useState([]);
   const [filtered, setFiltered] = useState([]);
-  const [zoom, setZoom] = useState(16);  // Zoomed in
+  const [zoom, setZoom] = useState(20);  // Zoomed in
   const today = new Date().toISOString().split("T")[0];
 
   const gameOver = guesses.length >= 6 || guesses.some(g => g.name === correctAnswer.name);
