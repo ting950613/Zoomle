@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import countries from "../data/countries_with_mapLocations.json";
 
@@ -10,56 +10,7 @@ const MAPBOX_RETINA = "@2x";
 const DISPLAY_WIDTH = 640;
 const DISPLAY_HEIGHT = 480;
 
-function getDailyCountry() {
-  const seed = Math.floor(new Date().setHours(0, 0, 0, 0) / 86400000);
-  const country = countries[seed % countries.length];
-  if (!country || !country.mapLocations || country.mapLocations.length === 0) {
-    return getRandomCountry();
-  }
-  return {
-    name: country.name,
-    locationName: country.mapLocations[0].name,
-    lat: country.mapLocations[0].lat,
-    lon: country.mapLocations[0].lon
-  };
-}
-
-function getRandomCountry() {
-  const country = countries[Math.floor(Math.random() * countries.length)];
-  if (!country.mapLocations || country.mapLocations.length === 0) {
-    return {
-      name: country.name,
-      locationName: country.name,
-      lat: 0,
-      lon: 0
-    };
-  }
-  const randomLocation = country.mapLocations[Math.floor(Math.random() * country.mapLocations.length)];
-  return {
-    name: country.name,
-    locationName: randomLocation.name,
-    lat: randomLocation.lat,
-    lon: randomLocation.lon
-  };
-}
-
-function getDistance(lat1, lon1, lat2, lon2) {
-  const toRad = deg => deg * Math.PI / 180;
-  const R = 6371;
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a = Math.sin(dLat / 2) ** 2 +
-            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-            Math.sin(dLon / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
-
-function getDirection(fromLat, fromLon, toLat, toLon) {
-  const angle = Math.atan2(toLon - fromLon, toLat - fromLat) * 180 / Math.PI;
-  const directions = ['↑', '↗', '→', '↘', '↓', '↙', '←', '↖'];
-  const index = Math.round(((angle + 360) % 360) / 45) % 8;
-  return directions[index];
-}
+// ... (keep all your existing utility functions: getDailyCountry, getRandomCountry, getDistance, getDirection)
 
 export default function Zoomle() {
   const today = new Date().toISOString().split("T")[0];
@@ -68,7 +19,8 @@ export default function Zoomle() {
   const [filtered, setFiltered] = useState([]);
   const [zoom, setZoom] = useState(INITIAL_ZOOM);
   const [devCountry, setDevCountry] = useState(null);
-  const [zoomHistory, setZoomHistory] = useState([]);
+  const [availableZooms, setAvailableZooms] = useState([INITIAL_ZOOM]);
+  const sliderRef = useRef(null);
 
   const correctAnswer = devCountry || getDailyCountry();
   const gameOver = guesses.length >= 6 || guesses.some(g => g.name === correctAnswer.name);
@@ -77,12 +29,20 @@ export default function Zoomle() {
     ? `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${correctAnswer.lon},${correctAnswer.lat},${zoom},0/${MAPBOX_SIZE}${MAPBOX_RETINA}?access_token=${MAPBOX_TOKEN}`
     : '';
 
-  const handleZoomBack = () => {
-    if (zoomHistory.length > 0) {
-      const previousZoom = zoomHistory[zoomHistory.length - 1];
-      setZoom(previousZoom);
-      setZoomHistory(prev => prev.slice(0, -1));
+  // Update available zooms when guesses change
+  useEffect(() => {
+    if (guesses.length > 0) {
+      const newZooms = [INITIAL_ZOOM];
+      for (let i = 1; i <= guesses.length; i++) {
+        newZooms.push(INITIAL_ZOOM - i);
+      }
+      setAvailableZooms(newZooms);
     }
+  }, [guesses.length]);
+
+  const handleSliderChange = (e) => {
+    const index = parseInt(e.target.value);
+    setZoom(availableZooms[index]);
   };
 
   const handleInputChange = (e) => {
@@ -121,9 +81,6 @@ export default function Zoomle() {
     );
     const isCorrect = selected.name === correctAnswer.name;
 
-    // Save current zoom to history before changing
-    setZoomHistory(prev => [...prev, zoom]);
-    
     setGuesses(prev => [...prev, { 
       name: selected.name, 
       distance, 
@@ -132,120 +89,43 @@ export default function Zoomle() {
     }]);
     setInput("");
     setFiltered([]);
-    setZoom(z => Math.max(4, z - 1)); // Zoom out by 1 level
+    setZoom(prevZoom => Math.max(4, prevZoom - 1)); // Zoom out by 1
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleSelect(input);
-    }
-  };
-
-  const handleRandomCountry = () => {
-    setGuesses([]);
-    setZoom(INITIAL_ZOOM);
-    setZoomHistory([]);
-    setDevCountry(getRandomCountry());
-  };
-
-  const handleDailyReset = () => {
-    setGuesses([]);
-    setZoom(INITIAL_ZOOM);
-    setZoomHistory([]);
-    setDevCountry(null);
-  };
+  // ... (keep all your other handlers: handleKeyDown, handleRandomCountry, handleDailyReset)
 
   return (
     <div className="min-h-screen bg-neutral-100 text-gray-900 flex flex-col items-center justify-start p-6 font-serif">
       <h1 className="text-3xl font-bold mb-2">Zoomle - {today}</h1>
       
-      <div className="flex flex-row gap-2 mb-4">
-        <button
-          onClick={handleRandomCountry}
-          className="px-3 py-1 bg-orange-500 text-white rounded hover:bg-orange-600"
-        >
-          Random Country (Dev)
-        </button>
-        <button
-          onClick={handleDailyReset}
-          className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Daily Refresh
-        </button>
-      </div>
-      
-      <p className="mb-4 text-sm text-gray-600">Daily Location Guessing Game</p>
-      
-      {/* Zoom Control Bar */}
-      <div className="flex items-center gap-2 mb-2 w-full max-w-md">
-        <button
-          onClick={handleZoomBack}
-          disabled={zoomHistory.length === 0}
-          className={`px-2 py-1 rounded ${zoomHistory.length === 0 ? 'bg-gray-300 cursor-not-allowed' : 'bg-gray-500 hover:bg-gray-600 text-white'}`}
-        >
-          Zoom Back
-        </button>
-        <div className="text-sm text-gray-700">
-          Current Zoom: {zoom} | History: {zoomHistory.join(" → ")}
-        </div>
-      </div>
-      
-      {mapUrl ? (
-        <img 
-          src={mapUrl} 
-          alt="Map"
-          width={DISPLAY_WIDTH}
-          height={DISPLAY_HEIGHT}
-          className="mb-4 rounded shadow-lg w-full max-w-md"
-          style={{ objectFit: "cover", width: `${DISPLAY_WIDTH}px`, height: `${DISPLAY_HEIGHT}px` }}
-        />
-      ) : (
-        <div className="mb-4 p-4 bg-red-100 text-red-800 rounded">
-          Error loading map. Please check your data.
-        </div>
-      )}
+      {/* ... (keep your existing buttons and headers) */}
 
-      {!gameOver && (
-        <div className="mb-4 w-full max-w-sm relative">
-          <input
-            value={input}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            className="w-full p-2 border border-gray-300 rounded"
-            placeholder="Guess a country..."
-          />
-          {filtered.length > 0 && (
-            <ul className="absolute bg-white border border-gray-300 w-full mt-1 max-h-40 overflow-y-auto z-10 rounded shadow">
-              {filtered.map(c => (
-                <li
-                  key={c.name}
-                  className="p-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => handleSelect(c.name)}
-                >
-                  {c.name}
-                </li>
-              ))}
-            </ul>
+      {/* Zoom Slider */}
+      <div className="w-full max-w-md mb-4">
+        <div className="flex justify-between text-xs text-gray-600 mb-1">
+          <span>Most Zoomed In</span>
+          <span>Most Zoomed Out</span>
+        </div>
+        <input
+          type="range"
+          ref={sliderRef}
+          min="0"
+          max={availableZooms.length - 1}
+          value={availableZooms.indexOf(zoom)}
+          onChange={handleSliderChange}
+          disabled={availableZooms.length <= 1}
+          className={`w-full h-2 rounded-lg appearance-none cursor-pointer ${availableZooms.length <= 1 ? 'bg-gray-300' : 'bg-blue-500'}`}
+        />
+        <div className="text-center text-sm text-gray-700 mt-1">
+          {availableZooms.length > 1 ? (
+            `Zoom Level: ${zoom} (${availableZooms.indexOf(zoom) + 1}/${availableZooms.length})`
+          ) : (
+            "Make your first guess to unlock zoom control"
           )}
         </div>
-      )}
+      </div>
 
-      <ul className="mb-6 w-full max-w-sm">
-        {guesses.map((g, i) => (
-          <li key={i} className={`p-2 border rounded mb-2 ${g.isCorrect ? "bg-green-100" : "bg-white"}`}>
-            <strong>{g.name}</strong> – {g.isCorrect ? (
-              "🎉 Correct!"
-            ) : (
-              <>
-                {`${g.distance} km `}
-                <span className="text-xl">{g.direction}</span>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
-
-      <p className="text-gray-700 mb-2">{guesses.length}/6 guesses</p>
+      {/* ... (keep your existing map image and game UI) */}
 
       {gameOver && !guesses.some(g => g.isCorrect) && (
         <p className="text-red-500 text-sm mb-4">
