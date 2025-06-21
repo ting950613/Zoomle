@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import countries from "../data/countries_with_mapLocations.json";
 
@@ -33,6 +33,7 @@ export default function Zoomle() {
   const [guesses, setGuesses] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [zoom, setZoom] = useState(16);  // Zoomed in
+  const [mapKey, setMapKey] = useState(0); // for forcing map reload
   const today = new Date().toISOString().split("T")[0];
 
   const gameOver = guesses.length >= 6 || guesses.some(g => g.name === correctAnswer.name);
@@ -71,11 +72,19 @@ export default function Zoomle() {
     }
   };
 
+  const refreshMap = () => {
+    setMapKey(prev => prev + 1);
+  };
+
   return (
     <div className="min-h-screen bg-neutral-100 text-gray-900 flex flex-col items-center justify-start p-6 font-serif">
       <h1 className="text-3xl font-bold mb-2">Zoomle - {today}</h1>
       <p className="mb-4 text-sm text-gray-600">Daily Location Guessing Game</p>
-      <img src={mapUrl} alt="Map" className="mb-4 rounded shadow" />
+
+      <img key={mapKey} src={mapUrl} alt="Map" className="mb-2 rounded shadow" />
+      <button onClick={refreshMap} className="mb-4 px-4 py-1 bg-blue-500 text-white rounded text-sm">
+        Test Refresh Map
+      </button>
 
       {!gameOver && (
         <div className="mb-4 w-full max-w-sm relative">
