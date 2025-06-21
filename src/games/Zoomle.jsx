@@ -4,7 +4,7 @@ import countries from "../data/countries_with_mapLocations.json";
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 const MAX_ZOOM = 22;
-const INITIAL_ZOOM = 19; // Increased to 19 for more detail
+const INITIAL_ZOOM = 18; // Increased to 19 for more detail
 
 // New: Set higher map resolution for sharper images
 const MAPBOX_SIZE = "1280x960";
