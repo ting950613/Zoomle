@@ -1,138 +1,196 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import mapboxgl from "mapbox-gl";
+import "./Zoomle.css";
 import countries from "../data/countries_with_mapLocations.json";
 
-const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
+mapboxgl.accessToken =
+  "pk.eyJ1IjoibWljaGhlbHRpbmdmeSIsImEiOiJjbWMybG90NW4wOW51MnJvZzhtbjV2a2VmIn0.ChuSb3DlCEXTjlaW1tC-FA";
 
-function getDailyCountry() {
-  const seed = Math.floor(new Date().setHours(0, 0, 0, 0) / 86400000);
-  return countries[seed % countries.length];
-}
-const correctAnswer = getDailyCountry();
-
-function getDistance(lat1, lon1, lat2, lon2) {
-  const toRad = deg => deg * Math.PI / 180;
-  const R = 6371;
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a = Math.sin(dLat / 2) ** 2 +
-            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-            Math.sin(dLon / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+function getTodayCountryIndex() {
+  const date = new Date();
+  const dayNumber = Math.floor(
+    date.setHours(0, 0, 0, 0) / (1000 * 60 * 60 * 24)
+  );
+  return dayNumber % countries.length;
 }
 
-function getDirection(fromLat, fromLon, toLat, toLon) {
-  const angle = Math.atan2(toLon - fromLon, toLat - fromLat) * 180 / Math.PI;
-  const directions = ['↑', '↗', '→', '↘', '↓', '↙', '←', '↖'];
-  const index = Math.round(((angle + 360) % 360) / 45) % 8;
-  return directions[index];
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Radius of the earth in km
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    0.5 -
+    Math.cos(dLat) / 2 +
+    (Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      (1 - Math.cos(dLon))) /
+      2;
+
+  return Math.round(R * 2 * Math.asin(Math.sqrt(a)));
 }
 
-export default function Zoomle() {
-  const [input, setInput] = useState("");
+function getDirection(lat1, lon1, lat2, lon2) {
+  const dLat = lat2 - lat1;
+  const dLon = lon2 - lon1;
+
+  const angle = (Math.atan2(dLon, dLat) * 180) / Math.PI;
+
+  if (angle >= -22.5 && angle < 22.5) return "south";
+  if (angle >= 22.5 && angle < 67.5) return "southwest";
+  if (angle >= 67.5 && angle < 112.5) return "west";
+  if (angle >= 112.5 && angle < 157.5) return "northwest";
+  if (angle >= 157.5 || angle < -157.5) return "north";
+  if (angle >= -157.5 && angle < -112.5) return "northeast";
+  if (angle >= -112.5 && angle < -67.5) return "east";
+  if (angle >= -67.5 && angle < -22.5) return "southeast";
+
+  return "unknown";
+}
+
+function Zoomle() {
+  const [targetCountry, setTargetCountry] = useState(null);
+  const [guess, setGuess] = useState("");
   const [guesses, setGuesses] = useState([]);
-  const [filtered, setFiltered] = useState([]);
-  const [zoom, setZoom] = useState(16);  // Zoomed in
-  const [mapKey, setMapKey] = useState(0); // for forcing map reload
-  const today = new Date().toISOString().split("T")[0];
+  const [gameOver, setGameOver] = useState(false);
 
-  const gameOver = guesses.length >= 6 || guesses.some(g => g.name === correctAnswer.name);
+  useEffect(() => {
+    const todayIndex = getTodayCountryIndex();
+    setTargetCountry(countries[todayIndex]);
 
-  const mapUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${correctAnswer.lon},${correctAnswer.lat},${zoom},0/500x300?access_token=${MAPBOX_TOKEN}`;
+    const map = new mapboxgl.Map({
+      container: "map",
+      style: "mapbox://styles/mapbox/satellite-streets-v12",
+      center: [
+        countries[todayIndex].mapLocation.lon,
+        countries[todayIndex].mapLocation.lat,
+      ],
+      zoom: 6,
+    });
 
-  const handleInputChange = (e) => {
-    const val = e.target.value;
-    setInput(val);
-    if (val.length > 0) {
-      setFiltered(
-        countries.filter(c => c.name.toLowerCase().includes(val.toLowerCase())).slice(0, 10)
-      );
-    } else {
-      setFiltered([]);
+    return () => map.remove();
+  }, []);
+
+  const handleGuess = (countryName) => {
+    if (!countryName || gameOver) return;
+
+    const guessedCountry = countries.find(
+      (c) => c.name.toLowerCase() === countryName.toLowerCase()
+    );
+    if (!guessedCountry) return;
+
+    const distance = calculateDistance(
+      guessedCountry.lat,
+      guessedCountry.lon,
+      targetCountry.lat,
+      targetCountry.lon
+    );
+    const direction = getDirection(
+      guessedCountry.lat,
+      guessedCountry.lon,
+      targetCountry.lat,
+      targetCountry.lon
+    );
+
+    const isCorrect =
+      guessedCountry.name.toLowerCase() ===
+      targetCountry.name.toLowerCase();
+
+    setGuesses((prev) => [
+      ...prev,
+      {
+        name: guessedCountry.name,
+        distance,
+        direction,
+        isCorrect,
+      },
+    ]);
+
+    setGuess("");
+
+    if (isCorrect || guesses.length + 1 >= 6) {
+      setGameOver(true);
     }
   };
 
-  const handleSelect = (name) => {
-    const selected = countries.find(c => c.name === name);
-    if (!selected) return;
-
-    const distance = Math.round(getDistance(selected.lat, selected.lon, correctAnswer.lat, correctAnswer.lon));
-    const direction = getDirection(selected.lat, selected.lon, correctAnswer.lat, correctAnswer.lon);
-    const isCorrect = selected.name === correctAnswer.name;
-
-    setGuesses(prev => [...prev, { name: selected.name, distance, direction, isCorrect }]);
-    setInput("");
-    setFiltered([]);
-    setZoom(z => Math.max(2, z - 1));
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleGuess(guess.trim());
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleSelect(input);
-    }
+  const handleOptionClick = (name) => {
+    handleGuess(name);
   };
 
-  const refreshMap = () => {
-    setMapKey(prev => prev + 1);
+  const testRandomCountry = () => {
+    const randomIndex = Math.floor(Math.random() * countries.length);
+    const randomCountry = countries[randomIndex];
+    setTargetCountry(randomCountry);
+
+    const map = new mapboxgl.Map({
+      container: "map",
+      style: "mapbox://styles/mapbox/satellite-streets-v12",
+      center: [randomCountry.mapLocation.lon, randomCountry.mapLocation.lat],
+      zoom: 6,
+    });
   };
+
+  const filteredCountries = countries.filter((c) =>
+    c.name.toLowerCase().includes(guess.toLowerCase())
+  );
 
   return (
-    <div className="min-h-screen bg-neutral-100 text-gray-900 flex flex-col items-center justify-start p-6 font-serif">
-      <h1 className="text-3xl font-bold mb-2">Zoomle - {today}</h1>
-      <p className="mb-4 text-sm text-gray-600">Daily Location Guessing Game</p>
-
-      <img key={mapKey} src={mapUrl} alt="Map" className="mb-2 rounded shadow" />
-      <button onClick={refreshMap} className="mb-4 px-4 py-1 bg-blue-500 text-white rounded text-sm">
-        Test Refresh Map
-      </button>
-
-      {!gameOver && (
-        <div className="mb-4 w-full max-w-sm relative">
-          <input
-            value={input}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            className="w-full p-2 border border-gray-300 rounded"
-            placeholder="Guess a country..."
-          />
-          {filtered.length > 0 && (
-            <ul className="absolute bg-white border border-gray-300 w-full mt-1 max-h-40 overflow-y-auto z-10 rounded shadow">
-              {filtered.map(c => (
-                <li
-                  key={c.name}
-                  className="p-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => handleSelect(c.name)}
-                >
-                  {c.name}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      )}
-
-      <ul className="mb-6 w-full max-w-sm">
-        {guesses.map((g, i) => (
-          <li key={i} className={`p-2 border rounded mb-2 ${g.isCorrect ? "bg-green-100" : "bg-white"}`}>
-            <strong>{g.name}</strong> – {g.isCorrect ? (
-              "🎉 Correct!"
-            ) : (
-              <>
-                {`${g.distance} km `}
-                <img src={`/arrows/${g.direction}.svg`} alt={g.direction} className="inline w-5 h-5 ml-2" />
-              </>
-            )}
-          </li>
+    <div className="zoomle-container">
+      <h1>🌍 Zoomle</h1>
+      <div id="map" style={{ width: "100%", height: "400px" }}></div>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={guess}
+          onChange={(e) => setGuess(e.target.value)}
+          placeholder="Enter country name"
+          list="country-options"
+        />
+        <button type="submit">Guess</button>
+        <datalist id="country-options">
+          {filteredCountries.map((c) => (
+            <option key={c.name} value={c.name} />
+          ))}
+        </datalist>
+      </form>
+      <div>
+        {filteredCountries.map((c) => (
+          <div
+            key={c.name}
+            onClick={() => handleOptionClick(c.name)}
+            style={{ cursor: "pointer", padding: "2px" }}
+          >
+            {c.name}
+          </div>
         ))}
-      </ul>
-
-      <p className="text-gray-700 mb-2">{guesses.length}/6 guesses</p>
-
-      {gameOver && !guesses.some(g => g.isCorrect) && (
-        <p className="text-red-500 text-sm mb-4">The correct answer was: <strong>{correctAnswer.name}</strong>.</p>
+      </div>
+      <div className="guesses">
+        {guesses.map((g, index) => (
+          <div key={index}>
+            {g.name} – {g.distance} km –{" "}
+            <img
+              src={`/arrows/${g.direction}.png`}
+              alt={g.direction}
+              style={{ width: "20px", verticalAlign: "middle" }}
+            />
+          </div>
+        ))}
+      </div>
+      <p>
+        Guess {guesses.length}/{6}
+      </p>
+      {gameOver && !guesses.find((g) => g.isCorrect) && (
+        <p>The correct answer was: {targetCountry?.name}</p>
       )}
-
-      <Link to="/" className="text-blue-500 hover:underline mt-2 text-sm">Back to Home</Link>
+      <button onClick={testRandomCountry} style={{ marginTop: "10px" }}>
+        🔁 Test Random Country
+      </button>
     </div>
   );
 }
+
+export default Zoomle;
