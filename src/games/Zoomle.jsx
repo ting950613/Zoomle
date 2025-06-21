@@ -4,13 +4,11 @@ import countries from "../data/countries_with_mapLocations.json";
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 const MAX_ZOOM = 22;
-const INITIAL_ZOOM = 18; // Increased to 19 for more detail
-
-// New: Set higher map resolution for sharper images
+const INITIAL_ZOOM = 18;
 const MAPBOX_SIZE = "1280x960";
-const MAPBOX_RETINA = "@2x"; // use @2x for retina/high-DPI
-const DISPLAY_WIDTH = 640;   // Rendered width in px
-const DISPLAY_HEIGHT = 480;  // Rendered height in px
+const MAPBOX_RETINA = "@2x";
+const DISPLAY_WIDTH = 640;
+const DISPLAY_HEIGHT = 480;
 
 function getDailyCountry() {
   const seed = Math.floor(new Date().setHours(0, 0, 0, 0) / 86400000);
@@ -70,14 +68,22 @@ export default function Zoomle() {
   const [filtered, setFiltered] = useState([]);
   const [zoom, setZoom] = useState(INITIAL_ZOOM);
   const [devCountry, setDevCountry] = useState(null);
+  const [zoomHistory, setZoomHistory] = useState([]);
 
   const correctAnswer = devCountry || getDailyCountry();
   const gameOver = guesses.length >= 6 || guesses.some(g => g.name === correctAnswer.name);
 
-  // Updated: Higher resolution, explicit width/height for sharpness
   const mapUrl = correctAnswer.lat && correctAnswer.lon 
     ? `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${correctAnswer.lon},${correctAnswer.lat},${zoom},0/${MAPBOX_SIZE}${MAPBOX_RETINA}?access_token=${MAPBOX_TOKEN}`
     : '';
+
+  const handleZoomBack = () => {
+    if (zoomHistory.length > 0) {
+      const previousZoom = zoomHistory[zoomHistory.length - 1];
+      setZoom(previousZoom);
+      setZoomHistory(prev => prev.slice(0, -1));
+    }
+  };
 
   const handleInputChange = (e) => {
     const val = e.target.value;
@@ -115,6 +121,9 @@ export default function Zoomle() {
     );
     const isCorrect = selected.name === correctAnswer.name;
 
+    // Save current zoom to history before changing
+    setZoomHistory(prev => [...prev, zoom]);
+    
     setGuesses(prev => [...prev, { 
       name: selected.name, 
       distance, 
@@ -123,7 +132,7 @@ export default function Zoomle() {
     }]);
     setInput("");
     setFiltered([]);
-    setZoom(z => Math.max(4, z - 1));
+    setZoom(z => Math.max(4, z - 1)); // Zoom out by 1 level
   };
 
   const handleKeyDown = (e) => {
@@ -135,12 +144,14 @@ export default function Zoomle() {
   const handleRandomCountry = () => {
     setGuesses([]);
     setZoom(INITIAL_ZOOM);
+    setZoomHistory([]);
     setDevCountry(getRandomCountry());
   };
 
   const handleDailyReset = () => {
     setGuesses([]);
     setZoom(INITIAL_ZOOM);
+    setZoomHistory([]);
     setDevCountry(null);
   };
 
@@ -164,6 +175,20 @@ export default function Zoomle() {
       </div>
       
       <p className="mb-4 text-sm text-gray-600">Daily Location Guessing Game</p>
+      
+      {/* Zoom Control Bar */}
+      <div className="flex items-center gap-2 mb-2 w-full max-w-md">
+        <button
+          onClick={handleZoomBack}
+          disabled={zoomHistory.length === 0}
+          className={`px-2 py-1 rounded ${zoomHistory.length === 0 ? 'bg-gray-300 cursor-not-allowed' : 'bg-gray-500 hover:bg-gray-600 text-white'}`}
+        >
+          Zoom Back
+        </button>
+        <div className="text-sm text-gray-700">
+          Current Zoom: {zoom} | History: {zoomHistory.join(" → ")}
+        </div>
+      </div>
       
       {mapUrl ? (
         <img 
