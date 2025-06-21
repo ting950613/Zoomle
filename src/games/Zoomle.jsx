@@ -11,11 +11,11 @@ const DISPLAY_WIDTH = 640;
 const DISPLAY_HEIGHT = 480;
 
 // Utility functions
-function getDailyCountry() {
-  // Simple deterministic "country of the day" using today's date
+function getDailyCountry(offset = 0) {
+  // Deterministic "country of the day", optionally offset for dev
   const today = new Date().toISOString().split("T")[0];
-  const hash = today.split("-").reduce((acc, v) => acc + parseInt(v), 0);
-  return countries.length > 0 ? countries[hash % countries.length] : null;
+  const hash = today.split("-").reduce((acc, v) => acc + parseInt(v), 0) + offset;
+  return countries.length > 0 ? countries[(hash % countries.length + countries.length) % countries.length] : null;
 }
 function getDistance(lat1, lon1, lat2, lon2) {
   const toRad = deg => deg * Math.PI / 180;
@@ -48,11 +48,12 @@ export default function Zoomle() {
   const [filtered, setFiltered] = useState([]);
   const [zoom, setZoom] = useState(INITIAL_ZOOM);
   const [availableZooms, setAvailableZooms] = useState([INITIAL_ZOOM]);
+  const [countryOffset, setCountryOffset] = useState(0); // For dev cycling
   const sliderRef = useRef(null);
   const [error, setError] = useState("");
 
-  // Get today's country
-  const correctAnswer = getDailyCountry();
+  // Get today's country, with dev offset
+  const correctAnswer = getDailyCountry(countryOffset);
   const gameOver = guesses.length >= 6 || guesses.some(g => g.name === (correctAnswer && correctAnswer.name));
 
   // Map URL construction
@@ -145,6 +146,16 @@ export default function Zoomle() {
     }
   };
 
+  // Dev button handler: cycle to next daily guess and reset state
+  const handleDevNext = () => {
+    setCountryOffset((offset) => offset + 1);
+    setGuesses([]);
+    setInput("");
+    setFiltered([]);
+    setZoom(INITIAL_ZOOM);
+    setAvailableZooms([INITIAL_ZOOM]);
+  };
+
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center text-red-600 bg-neutral-100">
@@ -158,6 +169,26 @@ export default function Zoomle() {
 
   return (
     <div className="min-h-screen bg-neutral-100 text-gray-900 flex flex-col items-center justify-start p-6 font-serif">
+      {/* DEV BUTTON */}
+      <button
+        onClick={handleDevNext}
+        style={{
+          position: "absolute",
+          top: 16,
+          right: 16,
+          background: "#EEE",
+          border: "1px solid #CCC",
+          borderRadius: 4,
+          padding: "4px 10px",
+          fontWeight: "bold",
+          cursor: "pointer",
+          zIndex: 1000
+        }}
+        title="Next daily guess (Dev only)"
+      >
+        Dev: Next
+      </button>
+
       <h1 className="text-3xl font-bold mb-2">Zoomle - {today}</h1>
       <p className="mb-4 text-sm text-gray-600">Guess the daily country from the satellite map!</p>
 
