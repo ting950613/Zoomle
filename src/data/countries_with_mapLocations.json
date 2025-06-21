@@ -3560,9 +3560,6 @@
       }
     ]
   },
-    // ... (previous countries data remains unchanged)
-
-  // Additional Regions/Territories
   {
     "name": "Western Sahara",
     "lat": 24.2155,
