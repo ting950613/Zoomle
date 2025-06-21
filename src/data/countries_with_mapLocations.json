@@ -3559,5 +3559,138 @@
         "lon": 26.5000
       }
     ]
+  },
+    // ... (previous countries data remains unchanged)
+
+  // Additional Regions/Territories
+  {
+    "name": "Western Sahara",
+    "lat": 24.2155,
+    "lon": -12.8858,
+    "mapLocations": [
+      {
+        "name": "Laayoune (Capital)",
+        "lat": 27.1536,
+        "lon": -13.2033
+      }
+    ]
+  },
+  {
+    "name": "Hong Kong",
+    "lat": 22.3193,
+    "lon": 114.1694,
+    "mapLocations": [
+      {
+        "name": "Victoria Peak",
+        "lat": 22.2753,
+        "lon": 114.1476
+      },
+      {
+        "name": "Tsim Sha Tsui Promenade",
+        "lat": 22.2946,
+        "lon": 114.1739
+      }
+    ]
+  },
+  {
+    "name": "Macau",
+    "lat": 22.1987,
+    "lon": 113.5439,
+    "mapLocations": [
+      {
+        "name": "Ruins of St. Paul's",
+        "lat": 22.1977,
+        "lon": 113.5419
+      }
+    ]
+  },
+  {
+    "name": "Northern Cyprus",
+    "lat": 35.2359,
+    "lon": 33.9500,
+    "mapLocations": [
+      {
+        "name": "Kyrenia Castle",
+        "lat": 35.3417,
+        "lon": 33.3167
+      }
+    ]
+  },
+  {
+    "name": "South Ossetia",
+    "lat": 42.2333,
+    "lon": 43.9667,
+    "mapLocations": [
+      {
+        "name": "Tskhinvali (Capital)",
+        "lat": 42.2256,
+        "lon": 43.9703
+      }
+    ]
+  },
+  {
+    "name": "Abkhazia",
+    "lat": 43.0015,
+    "lon": 41.0234,
+    "mapLocations": [
+      {
+        "name": "Sukhumi (Capital)",
+        "lat": 43.0033,
+        "lon": 41.0192
+      }
+    ]
+  },
+  {
+    "name": "Somaliland",
+    "lat": 9.4117,
+    "lon": 44.4755,
+    "mapLocations": [
+      {
+        "name": "Hargeisa (Capital)",
+        "lat": 9.5600,
+        "lon": 44.0650
+      }
+    ]
+  },
+  {
+    "name": "Transnistria",
+    "lat": 47.2878,
+    "lon": 29.4205,
+    "mapLocations": [
+      {
+        "name": "Tiraspol (Capital)",
+        "lat": 46.8400,
+        "lon": 29.6433
+      }
+    ]
+  },
+  {
+    "name": "Artsakh (Nagorno-Karabakh)",
+    "lat": 39.8200,
+    "lon": 46.7500,
+    "mapLocations": [
+      {
+        "name": "Stepanakert (Capital)",
+        "lat": 39.8153,
+        "lon": 46.7519
+      }
+    ]
+  },
+  {
+    "name": "Taiwan",
+    "lat": 23.6978,
+    "lon": 120.9605,
+    "mapLocations": [
+      {
+        "name": "Taipei 101",
+        "lat": 25.0330,
+        "lon": 121.5654
+      },
+      {
+        "name": "Taroko Gorge",
+        "lat": 24.1583,
+        "lon": 121.6211
+      }
+    ]
   }
 ]
