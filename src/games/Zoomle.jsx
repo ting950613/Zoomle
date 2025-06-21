@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import countries from "../data/countries_with_mapLocations.json";
 
@@ -8,7 +8,10 @@ function getDailyCountry() {
   const seed = Math.floor(new Date().setHours(0, 0, 0, 0) / 86400000);
   return countries[seed % countries.length];
 }
-const correctAnswer = getDailyCountry();
+
+function getRandomCountry() {
+  return countries[Math.floor(Math.random() * countries.length)];
+}
 
 function getDistance(lat1, lon1, lat2, lon2) {
   const toRad = deg => deg * Math.PI / 180;
@@ -29,11 +32,15 @@ function getDirection(fromLat, fromLon, toLat, toLon) {
 }
 
 export default function Zoomle() {
+  const today = new Date().toISOString().split("T")[0];
   const [input, setInput] = useState("");
   const [guesses, setGuesses] = useState([]);
   const [filtered, setFiltered] = useState([]);
-  const [zoom, setZoom] = useState(16);  // Zoomed in
-  const today = new Date().toISOString().split("T")[0];
+  const [zoom, setZoom] = useState(16);
+  const [devCountry, setDevCountry] = useState(null); // For development/testing
+
+  // Use daily country unless devCountry is set (testing mode)
+  const correctAnswer = devCountry || getDailyCountry();
 
   const gameOver = guesses.length >= 6 || guesses.some(g => g.name === correctAnswer.name);
 
@@ -71,15 +78,38 @@ export default function Zoomle() {
     }
   };
 
+  // TESTING BUTTON: set a random country as the answer for development
+  const handleRandomCountry = () => {
+    setGuesses([]);
+    setZoom(16);
+    setDevCountry(getRandomCountry());
+  };
+
+  // DAILY RESET: revert to daily mode and reload guesses/zoom
+  const handleDailyReset = () => {
+    setGuesses([]);
+    setZoom(16);
+    setDevCountry(null);
+  };
+
   return (
     <div className="min-h-screen bg-neutral-100 text-gray-900 flex flex-col items-center justify-start p-6 font-serif">
       <h1 className="text-3xl font-bold mb-2">Zoomle - {today}</h1>
-      <button
-        onClick={() => window.location.reload()}
-        className="mb-4 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Refresh Game
-      </button>
+      {/* DEV ONLY BUTTONS */}
+      <div className="flex flex-row gap-2 mb-4">
+        <button
+          onClick={handleRandomCountry}
+          className="px-3 py-1 bg-orange-500 text-white rounded hover:bg-orange-600"
+        >
+          Random Country (Dev)
+        </button>
+        <button
+          onClick={handleDailyReset}
+          className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Daily Refresh
+        </button>
+      </div>
       <p className="mb-4 text-sm text-gray-600">Daily Location Guessing Game</p>
       <img src={mapUrl} alt="Map" className="mb-4 rounded shadow" />
 
