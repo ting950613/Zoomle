@@ -74,6 +74,12 @@ export default function Zoomle() {
   return (
     <div className="min-h-screen bg-neutral-100 text-gray-900 flex flex-col items-center justify-start p-6 font-serif">
       <h1 className="text-3xl font-bold mb-2">Zoomle - {today}</h1>
+      <button
+        onClick={() => window.location.reload()}
+        className="mb-4 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Refresh Game
+      </button>
       <p className="mb-4 text-sm text-gray-600">Daily Location Guessing Game</p>
       <img src={mapUrl} alt="Map" className="mb-4 rounded shadow" />
 
