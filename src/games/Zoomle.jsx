@@ -51,7 +51,7 @@ export default function Zoomle() {
   const [input, setInput] = useState("");
   const [guesses, setGuesses] = useState([]);
   const [filtered, setFiltered] = useState([]);
-  const [zoom, setZoom] = useState(12); // Changed from 16 to 12 for better initial view
+  const [zoom, setZoom] = useState(18); // Changed from 16 to 12 for better initial view
   const [devCountry, setDevCountry] = useState(null);
 
   // Use daily country unless devCountry is set (testing mode)
