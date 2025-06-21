@@ -12,7 +12,6 @@ const DISPLAY_HEIGHT = 480;
 
 // Utility functions
 function getDailyCountry(offset = 0) {
-  // Deterministic "country of the day", optionally offset for dev
   const today = new Date().toISOString().split("T")[0];
   const hash = today.split("-").reduce((acc, v) => acc + parseInt(v), 0) + offset;
   return countries.length > 0 ? countries[(hash % countries.length + countries.length) % countries.length] : null;
@@ -51,6 +50,22 @@ export default function Zoomle() {
   const [countryOffset, setCountryOffset] = useState(0); // For dev cycling
   const sliderRef = useRef(null);
   const [error, setError] = useState("");
+
+  // Responsive map size
+  const [mapSize, setMapSize] = useState({ width: DISPLAY_WIDTH, height: DISPLAY_HEIGHT });
+
+  useEffect(() => {
+    function handleResize() {
+      // Adjust map size for mobile; max width 100vw, maintain aspect ratio (4:3)
+      let width = Math.min(window.innerWidth - 32, DISPLAY_WIDTH); // 32px padding
+      if (width < 320) width = 320; // minimum map width
+      let height = Math.round(width * 0.75); // 4:3 ratio
+      setMapSize({ width, height });
+    }
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Get today's country, with dev offset
   const correctAnswer = getDailyCountry(countryOffset);
@@ -168,7 +183,7 @@ export default function Zoomle() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-100 text-gray-900 flex flex-col items-center justify-start p-6 font-serif">
+    <div className="min-h-screen bg-neutral-100 text-gray-900 flex flex-col items-center justify-start p-2 sm:p-6 font-serif">
       {/* DEV BUTTON */}
       <button
         onClick={handleDevNext}
@@ -189,30 +204,43 @@ export default function Zoomle() {
         Dev: Next
       </button>
 
-      <h1 className="text-3xl font-bold mb-2">Zoomle - {today}</h1>
-      <p className="mb-4 text-sm text-gray-600">Guess the daily country from the satellite map!</p>
+      <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-center">Zoomle - {today}</h1>
+      <p className="mb-4 text-xs sm:text-sm text-gray-600 text-center">Guess the daily country from the satellite map!</p>
 
       {/* Map */}
-      <div className="map-container mb-4" style={{ width: DISPLAY_WIDTH, height: DISPLAY_HEIGHT }}>
+      <div
+        className="map-container mb-4 rounded shadow bg-gray-300 flex items-center justify-center"
+        style={{
+          width: "100%",
+          maxWidth: mapSize.width,
+          height: mapSize.height,
+          minWidth: 0,
+          minHeight: 0
+        }}
+      >
         {mapUrl ? (
           <img
             src={mapUrl}
             alt="Map"
-            width={DISPLAY_WIDTH}
-            height={DISPLAY_HEIGHT}
-            className="rounded shadow"
-            style={{ objectFit: "cover" }}
+            width={mapSize.width}
+            height={mapSize.height}
+            className="rounded object-cover w-full h-full"
+            style={{
+              maxWidth: "100%",
+              maxHeight: "100%",
+              display: "block"
+            }}
           />
         ) : (
-          <div className="w-full h-full bg-gray-300 flex items-center justify-center text-gray-500">
+          <div className="w-full h-full flex items-center justify-center text-gray-500">
             Map unavailable
           </div>
         )}
       </div>
 
       {/* Zoom Slider - improved UX */}
-      <div className="w-full max-w-md mb-4">
-        <div className="flex justify-between text-xs text-gray-600 mb-1">
+      <div className="w-full max-w-md mb-4 px-1">
+        <div className="flex justify-between text-xs text-gray-600 mb-1 px-1">
           <span role="img" aria-label="Zoomed In" title="Zoomed In">🔍+</span>
           <span>Zoom</span>
           <span role="img" aria-label="Zoomed Out" title="Zoomed Out">🔍-</span>
@@ -227,13 +255,13 @@ export default function Zoomle() {
             onChange={handleSliderChange}
             disabled={availableZooms.length <= 1}
             aria-label="Zoom level"
-            className={`w-full h-2 rounded-lg appearance-none cursor-pointer ${availableZooms.length <= 1 ? 'bg-gray-300' : 'bg-blue-500'}`}
+            className={`w-full h-4 rounded-lg appearance-none cursor-pointer ${availableZooms.length <= 1 ? 'bg-gray-300' : 'bg-blue-500'}`}
             style={{
               backgroundSize: `${availableZooms.length > 1 ? (100 * ((availableZooms.indexOf(zoom)) / (availableZooms.length - 1))) : 0}% 100%`
             }}
           />
           {/* Tick marks */}
-          <div className="absolute left-0 right-0 top-4 flex justify-between pointer-events-none select-none">
+          <div className="absolute left-0 right-0 top-5 flex justify-between pointer-events-none select-none">
             {availableZooms.map((z, idx) => (
               <div key={z} className="flex flex-col items-center w-1">
                 <div
@@ -252,7 +280,7 @@ export default function Zoomle() {
             ))}
           </div>
         </div>
-        <div className="text-center text-sm text-gray-700 mt-1">
+        <div className="text-center text-xs sm:text-sm text-gray-700 mt-1">
           {availableZooms.length > 1
             ? (
                 <>
@@ -275,12 +303,13 @@ export default function Zoomle() {
             value={input}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 border border-gray-300 rounded text-sm"
             placeholder="Guess a country..."
             autoComplete="off"
+            style={{ minHeight: 40, fontSize: "1rem" }}
           />
           {filtered.length > 0 && (
-            <ul className="absolute bg-white border border-gray-300 w-full mt-1 max-h-40 overflow-y-auto z-10 rounded shadow">
+            <ul className="absolute bg-white border border-gray-300 w-full mt-1 max-h-40 overflow-y-auto z-10 rounded shadow text-sm">
               {filtered.map(c => (
                 <li
                   key={c.name}
@@ -298,7 +327,7 @@ export default function Zoomle() {
       {/* Guess List */}
       <ul className="mb-6 w-full max-w-sm">
         {guesses.map((g, i) => (
-          <li key={i} className={`p-2 border rounded mb-2 flex items-center justify-between ${g.isCorrect ? "bg-green-100 border-green-400" : ""}`}>
+          <li key={i} className={`p-2 border rounded mb-2 flex items-center justify-between ${g.isCorrect ? "bg-green-100 border-green-400" : ""} text-xs sm:text-base`}>
             <span>
               <strong>{g.name}</strong>
             </span>
@@ -311,13 +340,13 @@ export default function Zoomle() {
 
       {/* Result */}
       {gameOver && !guesses.some(g => g.isCorrect) && (
-        <div className="text-red-500 font-semibold mb-4">
+        <div className="text-red-500 font-semibold mb-4 text-center text-base">
           The correct answer was: {correctAnswer ? correctAnswer.name : "?"}
         </div>
       )}
 
       {/* Navigation */}
-      <Link to="/" className="text-blue-500 hover:underline mt-2 text-sm">Back to Home</Link>
+      <Link to="/" className="text-blue-500 hover:underline mt-2 text-xs sm:text-sm">Back to Home</Link>
     </div>
   );
 }
