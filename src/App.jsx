@@ -8,7 +8,6 @@ export default function App() {
       <p className="mb-4">Choose your game:</p>
       <div className="flex flex-col gap-4 items-center">
         <Link to="/zoomle" className="text-blue-500 hover:underline">Play Zoomle</Link>
-        <Link to="/emovi" className="text-blue-500 hover:underline">Play Emovi</Link>
       </div>
     </div>
   );
