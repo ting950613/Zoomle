@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Analytics } from "@vercel/analytics/react"; // <-- Add this import
 
 export default function App() {
   return (
@@ -9,6 +10,7 @@ export default function App() {
       <div className="flex flex-col gap-4 items-center">
         <Link to="/zoomle" className="text-blue-500 hover:underline">Play Zoomle</Link>
       </div>
+      <Analytics /> {/* <-- Add this before closing the main div */}
     </div>
   );
 }
