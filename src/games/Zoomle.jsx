@@ -6,6 +6,12 @@ const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 const MAX_ZOOM = 22;
 const INITIAL_ZOOM = 19; // Increased to 19 for more detail
 
+// New: Set higher map resolution for sharper images
+const MAPBOX_SIZE = "1280x960";
+const MAPBOX_RETINA = "@2x"; // use @2x for retina/high-DPI
+const DISPLAY_WIDTH = 640;   // Rendered width in px
+const DISPLAY_HEIGHT = 480;  // Rendered height in px
+
 function getDailyCountry() {
   const seed = Math.floor(new Date().setHours(0, 0, 0, 0) / 86400000);
   const country = countries[seed % countries.length];
@@ -68,9 +74,9 @@ export default function Zoomle() {
   const correctAnswer = devCountry || getDailyCountry();
   const gameOver = guesses.length >= 6 || guesses.some(g => g.name === correctAnswer.name);
 
-  // Updated map URL with higher resolution
+  // Updated: Higher resolution, explicit width/height for sharpness
   const mapUrl = correctAnswer.lat && correctAnswer.lon 
-    ? `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${correctAnswer.lon},${correctAnswer.lat},${zoom},0/800x600@2x?access_token=${MAPBOX_TOKEN}`
+    ? `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${correctAnswer.lon},${correctAnswer.lat},${zoom},0/${MAPBOX_SIZE}${MAPBOX_RETINA}?access_token=${MAPBOX_TOKEN}`
     : '';
 
   const handleInputChange = (e) => {
@@ -162,8 +168,11 @@ export default function Zoomle() {
       {mapUrl ? (
         <img 
           src={mapUrl} 
-          alt="Map" 
+          alt="Map"
+          width={DISPLAY_WIDTH}
+          height={DISPLAY_HEIGHT}
           className="mb-4 rounded shadow-lg w-full max-w-md"
+          style={{ objectFit: "cover", width: `${DISPLAY_WIDTH}px`, height: `${DISPLAY_HEIGHT}px` }}
         />
       ) : (
         <div className="mb-4 p-4 bg-red-100 text-red-800 rounded">
