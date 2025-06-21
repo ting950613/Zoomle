@@ -6,11 +6,26 @@ const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
 function getDailyCountry() {
   const seed = Math.floor(new Date().setHours(0, 0, 0, 0) / 86400000);
-  return countries[seed % countries.length];
+  const country = countries[seed % countries.length];
+  // Use the first mapLocation (usually the capital) by default
+  return {
+    name: country.name,
+    locationName: country.mapLocations[0].name,
+    lat: country.mapLocations[0].lat,
+    lon: country.mapLocations[0].lon
+  };
 }
 
 function getRandomCountry() {
-  return countries[Math.floor(Math.random() * countries.length)];
+  const country = countries[Math.floor(Math.random() * countries.length)];
+  // Randomly select one of the mapLocations
+  const randomLocation = country.mapLocations[Math.floor(Math.random() * country.mapLocations.length)];
+  return {
+    name: country.name,
+    locationName: randomLocation.name,
+    lat: randomLocation.lat,
+    lon: randomLocation.lon
+  };
 }
 
 function getDistance(lat1, lon1, lat2, lon2) {
@@ -36,8 +51,8 @@ export default function Zoomle() {
   const [input, setInput] = useState("");
   const [guesses, setGuesses] = useState([]);
   const [filtered, setFiltered] = useState([]);
-  const [zoom, setZoom] = useState(16);
-  const [devCountry, setDevCountry] = useState(null); // For development/testing
+  const [zoom, setZoom] = useState(12); // Changed from 16 to 12 for better initial view
+  const [devCountry, setDevCountry] = useState(null);
 
   // Use daily country unless devCountry is set (testing mode)
   const correctAnswer = devCountry || getDailyCountry();
@@ -59,17 +74,29 @@ export default function Zoomle() {
   };
 
   const handleSelect = (name) => {
-    const selected = countries.find(c => c.name === name);
-    if (!selected) return;
+    const country = countries.find(c => c.name === name);
+    if (!country) return;
+
+    // Use the first mapLocation (capital) by default
+    const selected = {
+      name: country.name,
+      lat: country.mapLocations[0].lat,
+      lon: country.mapLocations[0].lon
+    };
 
     const distance = Math.round(getDistance(selected.lat, selected.lon, correctAnswer.lat, correctAnswer.lon));
     const direction = getDirection(selected.lat, selected.lon, correctAnswer.lat, correctAnswer.lon);
     const isCorrect = selected.name === correctAnswer.name;
 
-    setGuesses(prev => [...prev, { name: selected.name, distance, direction, isCorrect }]);
+    setGuesses(prev => [...prev, { 
+      name: selected.name, 
+      distance, 
+      direction, 
+      isCorrect 
+    }]);
     setInput("");
     setFiltered([]);
-    setZoom(z => Math.max(2, z - 1));
+    setZoom(z => Math.max(2, z - 2)); // Zoom out faster with -2 instead of -1
   };
 
   const handleKeyDown = (e) => {
@@ -81,20 +108,21 @@ export default function Zoomle() {
   // TESTING BUTTON: set a random country as the answer for development
   const handleRandomCountry = () => {
     setGuesses([]);
-    setZoom(16);
+    setZoom(12); // Reset to wider zoom
     setDevCountry(getRandomCountry());
   };
 
   // DAILY RESET: revert to daily mode and reload guesses/zoom
   const handleDailyReset = () => {
     setGuesses([]);
-    setZoom(16);
+    setZoom(12); // Reset to wider zoom
     setDevCountry(null);
   };
 
   return (
     <div className="min-h-screen bg-neutral-100 text-gray-900 flex flex-col items-center justify-start p-6 font-serif">
       <h1 className="text-3xl font-bold mb-2">Zoomle - {today}</h1>
+      
       {/* DEV ONLY BUTTONS */}
       <div className="flex flex-row gap-2 mb-4">
         <button
@@ -110,8 +138,10 @@ export default function Zoomle() {
           Daily Refresh
         </button>
       </div>
+      
       <p className="mb-4 text-sm text-gray-600">Daily Location Guessing Game</p>
       <img src={mapUrl} alt="Map" className="mb-4 rounded shadow" />
+      <p className="text-sm text-gray-500 mb-2">{correctAnswer.locationName || correctAnswer.name}</p>
 
       {!gameOver && (
         <div className="mb-4 w-full max-w-sm relative">
@@ -146,7 +176,7 @@ export default function Zoomle() {
             ) : (
               <>
                 {`${g.distance} km `}
-                <img src={`/arrows/${g.direction}.svg`} alt={g.direction} className="inline w-5 h-5 ml-2" />
+                <span className="text-xl">{g.direction}</span>
               </>
             )}
           </li>
@@ -156,7 +186,9 @@ export default function Zoomle() {
       <p className="text-gray-700 mb-2">{guesses.length}/6 guesses</p>
 
       {gameOver && !guesses.some(g => g.isCorrect) && (
-        <p className="text-red-500 text-sm mb-4">The correct answer was: <strong>{correctAnswer.name}</strong>.</p>
+        <p className="text-red-500 text-sm mb-4">
+          The correct answer was: <strong>{correctAnswer.name}</strong> ({correctAnswer.locationName}).
+        </p>
       )}
 
       <Link to="/" className="text-blue-500 hover:underline mt-2 text-sm">Back to Home</Link>
