@@ -4,7 +4,7 @@ import countries from "../data/countries_with_mapLocations.json";
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 const MAX_ZOOM = 22;
-const INITIAL_ZOOM = 22; // Good balance between detail and visibility
+const INITIAL_ZOOM = 19; // Good balance between detail and visibility
 
 function getDailyCountry() {
   const seed = Math.floor(new Date().setHours(0, 0, 0, 0) / 86400000);
@@ -166,7 +166,6 @@ export default function Zoomle() {
           src={mapUrl} 
           alt="Map" 
           className="mb-4 rounded shadow"
-          title={`${correctAnswer.locationName} (Zoom: ${zoom})`}
         />
       ) : (
         <div className="mb-4 p-4 bg-red-100 text-red-800 rounded">
