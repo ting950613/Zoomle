@@ -87,14 +87,15 @@ export default function Zoomle() {
     setZoom(availableZooms[index]);
   };
 
+  // Only show countries whose names START with the input (case-insensitive)
   const handleInputChange = (e) => {
     const val = e.target.value;
     setInput(val);
     setFiltered(
-      val.length > 0 && countries.length > 0
-        ? countries.filter(c =>
-            c.name.toLowerCase().includes(val.toLowerCase())
-          ).slice(0, 10)
+      val.length > 0 
+        ? countries.filter(c => 
+            c.name.toLowerCase().startsWith(val.toLowerCase())
+          )
         : []
     );
   };
@@ -136,9 +137,10 @@ export default function Zoomle() {
     setZoom(prevZoom => Math.max(4, prevZoom - 1)); // Zoom out by 1
   };
 
-  // Allow Enter to select first suggestion
+  // Enter selects the first dropdown option, if available
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && filtered.length > 0) {
+      e.preventDefault(); // Prevent form submit or accidental newline
       handleSelect(filtered[0].name);
     }
   };
