@@ -226,10 +226,8 @@ export default function Zoomle() {
           disabled={availableZooms.length <= 1}
           className={`w-full h-2 rounded-lg appearance-none cursor-pointer ${availableZooms.length <= 1 ? 'bg-gray-300' : 'bg-blue-500'}`}
         />
-        <div className="text-center text-sm text-gray-700 mt-1">
-          {availableZooms.length > 1
-            ? `Zoom Level: ${zoom} (${availableZooms.indexOf(zoom) + 1}/${availableZooms.length})`
-            : "Make your first guess to unlock zoom control"}
+        <div className="text-center text-sm text-gray-700 mt-1 font-mono">
+          {`${guesses.length}/6 guesses`}
         </div>
       </div>
 
