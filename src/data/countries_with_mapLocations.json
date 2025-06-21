@@ -2713,5 +2713,851 @@
         "lon": -8.6148
       }
     ]
+  },
+    {
+    "name": "Qatar",
+    "lat": 25.3548,
+    "lon": 51.1839,
+    "mapLocations": [
+      {
+        "name": "Doha (Souq Waqif)",
+        "lat": 25.2880,
+        "lon": 51.5357
+      },
+      {
+        "name": "The Pearl-Qatar",
+        "lat": 25.3673,
+        "lon": 51.5587
+      }
+    ]
+  },
+  {
+    "name": "Romania",
+    "lat": 45.9432,
+    "lon": 24.9668,
+    "mapLocations": [
+      {
+        "name": "Bran Castle",
+        "lat": 45.5150,
+        "lon": 25.3670
+      },
+      {
+        "name": "Palace of Parliament, Bucharest",
+        "lat": 44.4276,
+        "lon": 26.0873
+      }
+    ]
+  },
+  {
+    "name": "Russia",
+    "lat": 61.5240,
+    "lon": 105.3188,
+    "mapLocations": [
+      {
+        "name": "Red Square, Moscow",
+        "lat": 55.7539,
+        "lon": 37.6208
+      },
+      {
+        "name": "Hermitage Museum, St. Petersburg",
+        "lat": 59.9398,
+        "lon": 30.3146
+      },
+      {
+        "name": "Lake Baikal",
+        "lat": 53.5000,
+        "lon": 108.0000
+      },
+      {
+        "name": "Mount Elbrus",
+        "lat": 43.3550,
+        "lon": 42.4392
+      }
+    ]
+  },
+  {
+    "name": "Rwanda",
+    "lat": -1.9403,
+    "lon": 29.8739,
+    "mapLocations": [
+      {
+        "name": "Kigali (Capital)",
+        "lat": -1.9441,
+        "lon": 30.0619
+      },
+      {
+        "name": "Volcanoes National Park",
+        "lat": -1.4667,
+        "lon": 29.5333
+      }
+    ]
+  },
+  {
+    "name": "Saint Kitts and Nevis",
+    "lat": 17.3578,
+    "lon": -62.7830,
+    "mapLocations": [
+      {
+        "name": "Brimstone Hill Fortress",
+        "lat": 17.3450,
+        "lon": -62.8378
+      }
+    ]
+  },
+  {
+    "name": "Saint Lucia",
+    "lat": 13.9094,
+    "lon": -60.9789,
+    "mapLocations": [
+      {
+        "name": "Pitons",
+        "lat": 13.8333,
+        "lon": -61.0667
+      }
+    ]
+  },
+  {
+    "name": "Samoa",
+    "lat": -13.7590,
+    "lon": -172.1046,
+    "mapLocations": [
+      {
+        "name": "Apia (Capital)",
+        "lat": -13.8333,
+        "lon": -171.7667
+      }
+    ]
+  },
+  {
+    "name": "San Marino",
+    "lat": 43.9333,
+    "lon": 12.4500,
+    "mapLocations": [
+      {
+        "name": "San Marino (Historic Center)",
+        "lat": 43.9322,
+        "lon": 12.4486
+      }
+    ]
+  },
+  {
+    "name": "Sao Tome and Principe",
+    "lat": 0.1864,
+    "lon": 6.6131,
+    "mapLocations": [
+      {
+        "name": "São Tomé (Capital)",
+        "lat": 0.3365,
+        "lon": 6.7274
+      }
+    ]
+  },
+  {
+    "name": "Saudi Arabia",
+    "lat": 23.8859,
+    "lon": 45.0792,
+    "mapLocations": [
+      {
+        "name": "Makkah (Grand Mosque)",
+        "lat": 21.3891,
+        "lon": 39.8579
+      },
+      {
+        "name": "Edge of the World (Jebel Fihrayn)",
+        "lat": 24.8136,
+        "lon": 46.0753
+      }
+    ]
+  },
+  {
+    "name": "Senegal",
+    "lat": 14.4974,
+    "lon": -14.4524,
+    "mapLocations": [
+      {
+        "name": "Gorée Island",
+        "lat": 14.6700,
+        "lon": -17.4000
+      },
+      {
+        "name": "Lake Retba (Pink Lake)",
+        "lat": 14.8381,
+        "lon": -17.2344
+      }
+    ]
+  },
+  {
+    "name": "Serbia",
+    "lat": 44.0165,
+    "lon": 21.0059,
+    "mapLocations": [
+      {
+        "name": "Belgrade (Kalemegdan Fortress)",
+        "lat": 44.8233,
+        "lon": 20.4500
+      },
+      {
+        "name": "Đavolja Varoš (Devil's Town)",
+        "lat": 42.9975,
+        "lon": 21.4100
+      }
+    ]
+  },
+  {
+    "name": "Seychelles",
+    "lat": -4.6796,
+    "lon": 55.4920,
+    "mapLocations": [
+      {
+        "name": "Anse Source d'Argent Beach",
+        "lat": -4.3583,
+        "lon": 55.8167
+      }
+    ]
+  },
+  {
+    "name": "Sierra Leone",
+    "lat": 8.4606,
+    "lon": -11.7799,
+    "mapLocations": [
+      {
+        "name": "Freetown (Capital)",
+        "lat": 8.4840,
+        "lon": -13.2299
+      }
+    ]
+  },
+  {
+    "name": "Singapore",
+    "lat": 1.3521,
+    "lon": 103.8198,
+    "mapLocations": [
+      {
+        "name": "Marina Bay Sands",
+        "lat": 1.2838,
+        "lon": 103.8591
+      },
+      {
+        "name": "Gardens by the Bay",
+        "lat": 1.2816,
+        "lon": 103.8636
+      }
+    ]
+  },
+  {
+    "name": "Slovakia",
+    "lat": 48.6690,
+    "lon": 19.6990,
+    "mapLocations": [
+      {
+        "name": "Bratislava Castle",
+        "lat": 48.1426,
+        "lon": 17.1000
+      },
+      {
+        "name": "High Tatras Mountains",
+        "lat": 49.1667,
+        "lon": 20.2500
+      }
+    ]
+  },
+  {
+    "name": "Slovenia",
+    "lat": 46.1512,
+    "lon": 14.9955,
+    "mapLocations": [
+      {
+        "name": "Lake Bled",
+        "lat": 46.3619,
+        "lon": 14.0925
+      },
+      {
+        "name": "Ljubljana Castle",
+        "lat": 46.0500,
+        "lon": 14.5167
+      }
+    ]
+  },
+  {
+    "name": "Solomon Islands",
+    "lat": -9.6457,
+    "lon": 160.1562,
+    "mapLocations": [
+      {
+        "name": "Honiara (Capital)",
+        "lat": -9.4333,
+        "lon": 159.9500
+      }
+    ]
+  },
+  {
+    "name": "Somalia",
+    "lat": 5.1521,
+    "lon": 46.1996,
+    "mapLocations": [
+      {
+        "name": "Mogadishu (Capital)",
+        "lat": 2.0371,
+        "lon": 45.3438
+      }
+    ]
+  },
+  {
+    "name": "South Africa",
+    "lat": -30.5595,
+    "lon": 22.9375,
+    "mapLocations": [
+      {
+        "name": "Table Mountain, Cape Town",
+        "lat": -33.9625,
+        "lon": 18.4031
+      },
+      {
+        "name": "Kruger National Park",
+        "lat": -24.0333,
+        "lon": 31.5833
+      },
+      {
+        "name": "Robben Island",
+        "lat": -33.8069,
+        "lon": 18.3669
+      }
+    ]
+  },
+  {
+    "name": "South Sudan",
+    "lat": 6.8770,
+    "lon": 31.3070,
+    "mapLocations": [
+      {
+        "name": "Juba (Capital)",
+        "lat": 4.8500,
+        "lon": 31.6000
+      }
+    ]
+  },
+  {
+    "name": "Spain",
+    "lat": 40.4637,
+    "lon": -3.7492,
+    "mapLocations": [
+      {
+        "name": "Sagrada Família, Barcelona",
+        "lat": 41.4036,
+        "lon": 2.1744
+      },
+      {
+        "name": "Alhambra, Granada",
+        "lat": 37.1769,
+        "lon": -3.5897
+      },
+      {
+        "name": "Park Güell, Barcelona",
+        "lat": 41.4145,
+        "lon": 2.1527
+      },
+      {
+        "name": "Prado Museum, Madrid",
+        "lat": 40.4139,
+        "lon": -3.6922
+      }
+    ]
+  },
+  {
+    "name": "Sri Lanka",
+    "lat": 7.8731,
+    "lon": 80.7718,
+    "mapLocations": [
+      {
+        "name": "Sigiriya Rock Fortress",
+        "lat": 7.9575,
+        "lon": 80.7603
+      },
+      {
+        "name": "Temple of the Tooth, Kandy",
+        "lat": 7.2936,
+        "lon": 80.6414
+      }
+    ]
+  },
+  {
+    "name": "Sudan",
+    "lat": 12.8628,
+    "lon": 30.2176,
+    "mapLocations": [
+      {
+        "name": "Pyramids of Meroë",
+        "lat": 16.9381,
+        "lon": 33.7508
+      }
+    ]
+  },
+  {
+    "name": "Suriname",
+    "lat": 3.9193,
+    "lon": -56.0278,
+    "mapLocations": [
+      {
+        "name": "Paramaribo (Historic Center)",
+        "lat": 5.8520,
+        "lon": -55.2038
+      }
+    ]
+  },
+  {
+    "name": "Sweden",
+    "lat": 60.1282,
+    "lon": 18.6435,
+    "mapLocations": [
+      {
+        "name": "Stockholm (Gamla Stan)",
+        "lat": 59.3250,
+        "lon": 18.0700
+      },
+      {
+        "name": "Icehotel, Jukkasjärvi",
+        "lat": 67.8497,
+        "lon": 20.6028
+      }
+    ]
+  },
+  {
+    "name": "Switzerland",
+    "lat": 46.8182,
+    "lon": 8.2275,
+    "mapLocations": [
+      {
+        "name": "Matterhorn",
+        "lat": 45.9767,
+        "lon": 7.6583
+      },
+      {
+        "name": "Château de Chillon",
+        "lat": 46.4142,
+        "lon": 6.9275
+      },
+      {
+        "name": "Jungfraujoch",
+        "lat": 46.5479,
+        "lon": 7.9851
+      }
+    ]
+  },
+  {
+    "name": "Syria",
+    "lat": 34.8021,
+    "lon": 38.9968,
+    "mapLocations": [
+      {
+        "name": "Palmyra Ruins",
+        "lat": 34.5560,
+        "lon": 38.2739
+      }
+    ]
+  },
+  {
+    "name": "Taiwan",
+    "lat": 23.6978,
+    "lon": 120.9605,
+    "mapLocations": [
+      {
+        "name": "Taipei 101",
+        "lat": 25.0330,
+        "lon": 121.5654
+      },
+      {
+        "name": "Taroko Gorge",
+        "lat": 24.1583,
+        "lon": 121.6211
+      }
+    ]
+  },
+  {
+    "name": "Tajikistan",
+    "lat": 38.8610,
+    "lon": 71.2761,
+    "mapLocations": [
+      {
+        "name": "Pamir Highway",
+        "lat": 38.4667,
+        "lon": 71.5667
+      }
+    ]
+  },
+  {
+    "name": "Tanzania",
+    "lat": -6.3690,
+    "lon": 34.8888,
+    "mapLocations": [
+      {
+        "name": "Mount Kilimanjaro",
+        "lat": -3.0674,
+        "lon": 37.3556
+      },
+      {
+        "name": "Serengeti National Park",
+        "lat": -2.3333,
+        "lon": 34.8333
+      }
+    ]
+  },
+  {
+    "name": "Thailand",
+    "lat": 15.8700,
+    "lon": 100.9925,
+    "mapLocations": [
+      {
+        "name": "Grand Palace, Bangkok",
+        "lat": 13.7500,
+        "lon": 100.4915
+      },
+      {
+        "name": "Ayutthaya Historical Park",
+        "lat": 14.3694,
+        "lon": 100.5878
+      },
+      {
+        "name": "Phi Phi Islands",
+        "lat": 7.7333,
+        "lon": 98.7667
+      }
+    ]
+  },
+  {
+    "name": "Togo",
+    "lat": 8.6195,
+    "lon": 0.8248,
+    "mapLocations": [
+      {
+        "name": "Lomé (Capital)",
+        "lat": 6.1309,
+        "lon": 1.2228
+      }
+    ]
+  },
+  {
+    "name": "Tonga",
+    "lat": -21.1790,
+    "lon": -175.1982,
+    "mapLocations": [
+      {
+        "name": "Nuku'alofa (Capital)",
+        "lat": -21.1333,
+        "lon": -175.2000
+      }
+    ]
+  },
+  {
+    "name": "Trinidad and Tobago",
+    "lat": 10.6918,
+    "lon": -61.2225,
+    "mapLocations": [
+      {
+        "name": "Pigeon Point Beach",
+        "lat": 11.1856,
+        "lon": -60.8242
+      }
+    ]
+  },
+  {
+    "name": "Tunisia",
+    "lat": 33.8869,
+    "lon": 9.5375,
+    "mapLocations": [
+      {
+        "name": "Amphitheatre of El Jem",
+        "lat": 35.2964,
+        "lon": 10.7067
+      },
+      {
+        "name": "Medina of Tunis",
+        "lat": 36.8008,
+        "lon": 10.1650
+      }
+    ]
+  },
+  {
+    "name": "Turkey",
+    "lat": 38.9637,
+    "lon": 35.2433,
+    "mapLocations": [
+      {
+        "name": "Hagia Sophia, Istanbul",
+        "lat": 41.0086,
+        "lon": 28.9802
+      },
+      {
+        "name": "Cappadocia (Göreme)",
+        "lat": 38.6431,
+        "lon": 34.8306
+      },
+      {
+        "name": "Pamukkale Thermal Pools",
+        "lat": 37.9167,
+        "lon": 29.1167
+      }
+    ]
+  },
+  {
+    "name": "Turkmenistan",
+    "lat": 38.9697,
+    "lon": 59.5563,
+    "mapLocations": [
+      {
+        "name": "Door to Hell (Gas Crater)",
+        "lat": 40.2525,
+        "lon": 58.4396
+      }
+    ]
+  },
+  {
+    "name": "Tuvalu",
+    "lat": -7.1095,
+    "lon": 177.6493,
+    "mapLocations": [
+      {
+        "name": "Funafuti Atoll",
+        "lat": -8.5167,
+        "lon": 179.2000
+      }
+    ]
+  },
+  {
+    "name": "Uganda",
+    "lat": 1.3733,
+    "lon": 32.2903,
+    "mapLocations": [
+      {
+        "name": "Bwindi Impenetrable Forest",
+        "lat": -1.0500,
+        "lon": 29.7000
+      },
+      {
+        "name": "Lake Victoria",
+        "lat": 0.5000,
+        "lon": 33.2500
+      }
+    ]
+  },
+  {
+    "name": "Ukraine",
+    "lat": 48.3794,
+    "lon": 31.1656,
+    "mapLocations": [
+      {
+        "name": "Saint Sophia's Cathedral, Kyiv",
+        "lat": 50.4536,
+        "lon": 30.5164
+      },
+      {
+        "name": "Chernobyl Exclusion Zone",
+        "lat": 51.2763,
+        "lon": 30.2219
+      }
+    ]
+  },
+  {
+    "name": "United Arab Emirates",
+    "lat": 23.4241,
+    "lon": 53.8478,
+    "mapLocations": [
+      {
+        "name": "Burj Khalifa, Dubai",
+        "lat": 25.1972,
+        "lon": 55.2744
+      },
+      {
+        "name": "Sheikh Zayed Mosque, Abu Dhabi",
+        "lat": 24.4129,
+        "lon": 54.4747
+      }
+    ]
+  },
+  {
+    "name": "United Kingdom",
+    "lat": 55.3781,
+    "lon": -3.4360,
+    "mapLocations": [
+      {
+        "name": "Big Ben, London",
+        "lat": 51.5007,
+        "lon": -0.1246
+      },
+      {
+        "name": "Stonehenge",
+        "lat": 51.1789,
+        "lon": -1.8262
+      },
+      {
+        "name": "Edinburgh Castle",
+        "lat": 55.9486,
+        "lon": -3.2008
+      }
+    ]
+  },
+  {
+    "name": "United States",
+    "lat": 37.0902,
+    "lon": -95.7129,
+    "mapLocations": [
+      {
+        "name": "Statue of Liberty, New York",
+        "lat": 40.6892,
+        "lon": -74.0445
+      },
+      {
+        "name": "Golden Gate Bridge, San Francisco",
+        "lat": 37.8199,
+        "lon": -122.4783
+      },
+      {
+        "name": "Grand Canyon, Arizona",
+        "lat": 36.1069,
+        "lon": -112.1129
+      },
+      {
+        "name": "White House, Washington D.C.",
+        "lat": 38.8977,
+        "lon": -77.0365
+      },
+      {
+        "name": "Walt Disney World, Florida",
+        "lat": 28.3852,
+        "lon": -81.5639
+      }
+    ]
+  },
+  {
+    "name": "Uruguay",
+    "lat": -32.5228,
+    "lon": -55.7658,
+    "mapLocations": [
+      {
+        "name": "Montevideo (Old City)",
+        "lat": -34.9011,
+        "lon": -56.1645
+      },
+      {
+        "name": "Punta del Este Beaches",
+        "lat": -34.9667,
+        "lon": -54.9500
+      }
+    ]
+  },
+  {
+    "name": "Uzbekistan",
+    "lat": 41.3775,
+    "lon": 64.5853,
+    "mapLocations": [
+      {
+        "name": "Registan Square, Samarkand",
+        "lat": 39.6547,
+        "lon": 66.9757
+      },
+      {
+        "name": "Itchan Kala, Khiva",
+        "lat": 41.3783,
+        "lon": 60.3617
+      }
+    ]
+  },
+  {
+    "name": "Vanuatu",
+    "lat": -15.3767,
+    "lon": 166.9592,
+    "mapLocations": [
+      {
+        "name": "Mount Yasur Volcano",
+        "lat": -19.5167,
+        "lon": 169.4333
+      }
+    ]
+  },
+  {
+    "name": "Vatican City",
+    "lat": 41.9029,
+    "lon": 12.4534,
+    "mapLocations": [
+      {
+        "name": "St. Peter's Basilica",
+        "lat": 41.9022,
+        "lon": 12.4539
+      }
+    ]
+  },
+  {
+    "name": "Venezuela",
+    "lat": 6.4238,
+    "lon": -66.5897,
+    "mapLocations": [
+      {
+        "name": "Angel Falls",
+        "lat": 5.9667,
+        "lon": -62.5333
+      },
+      {
+        "name": "Caracas (Avila Mountain)",
+        "lat": 10.5000,
+        "lon": -66.9167
+      }
+    ]
+  },
+  {
+    "name": "Vietnam",
+    "lat": 14.0583,
+    "lon": 108.2772,
+    "mapLocations": [
+      {
+        "name": "Halong Bay",
+        "lat": 20.9500,
+        "lon": 107.0833
+      },
+      {
+        "name": "Hoi An Ancient Town",
+        "lat": 15.8772,
+        "lon": 108.3328
+      }
+    ]
+  },
+  {
+    "name": "Yemen",
+    "lat": 15.5527,
+    "lon": 48.5164,
+    "mapLocations": [
+      {
+        "name": "Old City of Sana'a",
+        "lat": 15.3500,
+        "lon": 44.2000
+      }
+    ]
+  },
+  {
+    "name": "Zambia",
+    "lat": -13.1339,
+    "lon": 27.8493,
+    "mapLocations": [
+      {
+        "name": "Victoria Falls",
+        "lat": -17.9243,
+        "lon": 25.8572
+      }
+    ]
+  },
+  {
+    "name": "Zimbabwe",
+    "lat": -19.0154,
+    "lon": 29.1549,
+    "mapLocations": [
+      {
+        "name": "Great Zimbabwe Ruins",
+        "lat": -20.2675,
+        "lon": 30.9339
+      },
+      {
+        "name": "Hwange National Park",
+        "lat": -18.7500,
+        "lon": 26.5000
+      }
+    ]
   }
 ]
