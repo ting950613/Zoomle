@@ -210,26 +210,61 @@ export default function Zoomle() {
         )}
       </div>
 
-      {/* Zoom Slider */}
+      {/* Zoom Slider - improved UX */}
       <div className="w-full max-w-md mb-4">
         <div className="flex justify-between text-xs text-gray-600 mb-1">
-          <span>Most Zoomed In</span>
-          <span>Most Zoomed Out</span>
+          <span role="img" aria-label="Zoomed In" title="Zoomed In">🔍+</span>
+          <span>Zoom</span>
+          <span role="img" aria-label="Zoomed Out" title="Zoomed Out">🔍-</span>
         </div>
-        <input
-          type="range"
-          ref={sliderRef}
-          min="0"
-          max={availableZooms.length - 1}
-          value={availableZooms.indexOf(zoom)}
-          onChange={handleSliderChange}
-          disabled={availableZooms.length <= 1}
-          className={`w-full h-2 rounded-lg appearance-none cursor-pointer ${availableZooms.length <= 1 ? 'bg-gray-300' : 'bg-blue-500'}`}
-        />
+        <div className="relative">
+          <input
+            type="range"
+            ref={sliderRef}
+            min="0"
+            max={availableZooms.length - 1}
+            value={availableZooms.indexOf(zoom)}
+            onChange={handleSliderChange}
+            disabled={availableZooms.length <= 1}
+            aria-label="Zoom level"
+            className={`w-full h-2 rounded-lg appearance-none cursor-pointer ${availableZooms.length <= 1 ? 'bg-gray-300' : 'bg-blue-500'}`}
+            style={{
+              backgroundSize: `${availableZooms.length > 1 ? (100 * ((availableZooms.indexOf(zoom)) / (availableZooms.length - 1))) : 0}% 100%`
+            }}
+          />
+          {/* Tick marks */}
+          <div className="absolute left-0 right-0 top-4 flex justify-between pointer-events-none select-none">
+            {availableZooms.map((z, idx) => (
+              <div key={z} className="flex flex-col items-center w-1">
+                <div
+                  style={{
+                    width: 2,
+                    height: 8,
+                    background: zoom === z ? "#2563eb" : "#cbd5e1",
+                    marginBottom: 2,
+                    borderRadius: 2
+                  }}
+                />
+                <div className="text-[10px] text-gray-500">
+                  {z}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="text-center text-sm text-gray-700 mt-1">
           {availableZooms.length > 1
-            ? `Zoom Level: ${zoom} (${availableZooms.indexOf(zoom) + 1}/${availableZooms.length})`
-            : "Make your first guess to unlock zoom control"}
+            ? (
+                <>
+                  Zoom Level: <span className="font-bold">{zoom}</span> ({availableZooms.indexOf(zoom) + 1}/{availableZooms.length})
+                </>
+              )
+            : (
+              <span title="Make your first guess to unlock zoom control">
+                Make your first guess to unlock zoom control
+              </span>
+            )
+          }
         </div>
       </div>
 
