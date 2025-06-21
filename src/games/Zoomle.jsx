@@ -4,14 +4,13 @@ import countries from "../data/countries_with_mapLocations.json";
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 const MAX_ZOOM = 22;
-const INITIAL_ZOOM = 18; // Good balance between detail and visibility
+const INITIAL_ZOOM = 19; // Increased to 19 for more detail
 
 function getDailyCountry() {
   const seed = Math.floor(new Date().setHours(0, 0, 0, 0) / 86400000);
   const country = countries[seed % countries.length];
-  // Add null checks for mapLocations
   if (!country || !country.mapLocations || country.mapLocations.length === 0) {
-    return getRandomCountry(); // Fallback if data is malformed
+    return getRandomCountry();
   }
   return {
     name: country.name,
@@ -23,9 +22,8 @@ function getDailyCountry() {
 
 function getRandomCountry() {
   const country = countries[Math.floor(Math.random() * countries.length)];
-  // Ensure mapLocations exists and has items
   if (!country.mapLocations || country.mapLocations.length === 0) {
-    return { // Fallback data
+    return {
       name: country.name,
       locationName: country.name,
       lat: 0,
@@ -70,9 +68,9 @@ export default function Zoomle() {
   const correctAnswer = devCountry || getDailyCountry();
   const gameOver = guesses.length >= 6 || guesses.some(g => g.name === correctAnswer.name);
 
-  // Add null checks for map URL generation
+  // Updated map URL with higher resolution
   const mapUrl = correctAnswer.lat && correctAnswer.lon 
-    ? `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${correctAnswer.lon},${correctAnswer.lat},${zoom},0/500x300?access_token=${MAPBOX_TOKEN}`
+    ? `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${correctAnswer.lon},${correctAnswer.lat},${zoom},0/800x600@2x?access_token=${MAPBOX_TOKEN}`
     : '';
 
   const handleInputChange = (e) => {
@@ -165,7 +163,7 @@ export default function Zoomle() {
         <img 
           src={mapUrl} 
           alt="Map" 
-          className="mb-4 rounded shadow"
+          className="mb-4 rounded shadow-lg w-full max-w-md"
         />
       ) : (
         <div className="mb-4 p-4 bg-red-100 text-red-800 rounded">
