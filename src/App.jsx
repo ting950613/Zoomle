@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from './components/Logo'; // Changed from { Logo } to Logo
+import Logo from './components/Logo'; // Remove the { }
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(false);
