@@ -1,7 +1,12 @@
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}', './index.html'],
+  content: ["./src/**/*.{js,jsx}"],
+  darkMode: 'class',
   theme: {
-    extend: {},
-  },
-  plugins: [],
-};
+    extend: {
+      colors: {
+        primary: { 600: '#2563EB' },
+        secondary: { 500: '#10B981' }
+      }
+    }
+  }
+}
