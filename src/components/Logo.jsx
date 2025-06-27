@@ -1,8 +1,9 @@
-export default function Logo({ darkMode, className }) {
+export default function Logo({ className = "" }) {
   return (
-    // Replace this with your actual logo component or SVG
-    <div className={`${className} flex items-center justify-center rounded-lg bg-blue-600 text-white font-bold`}>
-      GV
-    </div>
+    <img 
+      src="/logo.png" // Save your logo as public/logo.png
+      alt="Guessverse Logo"
+      className={`${className} h-12 object-contain`}
+    />
   );
 }
