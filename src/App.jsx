@@ -1,81 +1,91 @@
 import { useState } from 'react';
 import Logo from './components/Logo';
-import GameCard from './components/GameCard';
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(false);
 
   const games = [
     {
+      id: 1,
       title: "Zoomle",
-      description: "Guess countries from satellite images",
+      description: "Guess countries from satellite imagery",
       icon: "🌍",
-      path: "/zoomle"
+      stats: "Daily Challenge"
     },
     {
-      title: "Wordle",
-      description: "Daily word guessing challenge",
-      icon: "🔠", 
-      path: "/wordle",
-      comingSoon: true
+      id: 2, 
+      title: "Coming Soon",
+      description: "More games in development",
+      icon: "🛠️",
+      stats: "Under Construction"
     }
   ];
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
+    <div className={`min-h-screen ${darkMode ? 'dark bg-gray-900' : 'bg-gradient-to-br from-blue-50 to-gray-100'}`}>
+      
       {/* Navigation */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <nav className={`backdrop-blur-xs ${darkMode ? 'bg-gray-800/80' : 'bg-white/80'} border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'} sticky top-0 z-10`}>
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <Logo />
-            <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+            <Logo className="h-10" />
+            <span className="text-xl font-semibold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
               Guessverse
             </span>
           </div>
-          <button 
+          <button
             onClick={() => setDarkMode(!darkMode)}
-            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+            className={`p-2 rounded-full ${darkMode ? 'bg-gray-700 text-yellow-300' : 'bg-gray-100 text-gray-700'}`}
           >
             {darkMode ? '☀️' : '🌙'}
           </button>
         </div>
-      </header>
+      </nav>
 
       {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-6 py-12">
-        <div className="text-center mb-16">
+      <main className="max-w-7xl mx-auto px-6 py-12">
+        {/* Hero Section */}
+        <section className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
-            Welcome to <span className="text-blue-600 dark:text-blue-400">Guessverse</span>
+            Discover <span className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">Guessverse</span>
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            A collection of fun guessing games that test your knowledge
+            A collection of beautifully designed guessing games
           </p>
-        </div>
+        </section>
 
         {/* Games Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {games.map((game, index) => (
-            <GameCard
-              key={index}
-              title={game.title}
-              description={game.description}
-              icon={game.icon}
-              path={game.path}
-            />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {games.map((game) => (
+            <div 
+              key={game.id}
+              className={`rounded-2xl overflow-hidden backdrop-blur-xs border ${darkMode ? 'bg-gray-800/30 border-gray-700' : 'bg-white/30 border-gray-200'} hover:shadow-lg transition-all`}
+            >
+              <div className="p-6">
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="text-3xl">{game.icon}</span>
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-800 dark:text-white">{game.title}</h3>
+                    <p className="text-sm text-primary-light">{game.stats}</p>
+                  </div>
+                </div>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">{game.description}</p>
+                <button className={`w-full py-2 rounded-lg ${darkMode ? 'bg-primary-light hover:bg-primary' : 'bg-primary hover:bg-primary-light'} text-white transition-colors`}>
+                  {game.id === 1 ? 'Play Now' : 'Notify Me'}
+                </button>
+              </div>
+            </div>
           ))}
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="bg-white dark:bg-gray-800 border-t py-8">
-        <div className="max-w-6xl mx-auto px-6 text-center">
+      <footer className={`py-8 ${darkMode ? 'bg-gray-800/50' : 'bg-white/50'} border-t ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+        <div className="max-w-7xl mx-auto px-6 text-center">
           <div className="flex justify-center gap-6 mb-4">
-            <a href="/privacy" className="text-gray-600 dark:text-gray-400 hover:text-blue-500">
-              Privacy
-            </a>
-            <a href="/about" className="text-gray-600 dark:text-gray-400 hover:text-blue-500">
-              About
-            </a>
+            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">Privacy</a>
+            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">Terms</a>
+            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">Contact</a>
           </div>
           <p className="text-sm text-gray-500 dark:text-gray-400">
             © {new Date().getFullYear()} Guessverse. All rights reserved.
